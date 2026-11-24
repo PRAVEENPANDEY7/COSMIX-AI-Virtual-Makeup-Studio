@@ -14,7 +14,7 @@ export const BrandStory: React.FC = () => {
           {/* Left Column — 3D Floating Interactive Card (~40% Content Width) */}
           <div className="lg:col-span-5 relative flex items-center justify-center">
             <FloatingBrandCard
-              imageSrc="/assets/cosmix/sequence/ezgif-frame-285.jpg"
+              imageSrc="/assets/cosmix/sequence/frame-428.jpg"
               alt="COSMIX Luxury Lipstick Still Life"
             />
           </div>
