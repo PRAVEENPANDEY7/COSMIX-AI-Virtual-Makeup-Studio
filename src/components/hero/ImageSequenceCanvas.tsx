@@ -118,9 +118,9 @@ export const ImageSequenceCanvas: React.FC<ImageSequenceCanvasProps> = ({
     const smoothPlaybackLoop = () => {
       const diff = targetIndexRef.current - currentIndexRef.current;
 
-      if (Math.abs(diff) > 0.05) {
-        // Balanced damping (0.28): smooth, authentic cinematic momentum
-        currentIndexRef.current += diff * 0.28;
+      if (Math.abs(diff) > 0.04) {
+        // Ultra-fluid damping (0.30) tuned for 448 high-granularity frames
+        currentIndexRef.current += diff * 0.30;
         const frameToDraw = Math.round(currentIndexRef.current);
         renderFrameToCanvas(frameToDraw);
       } else if (currentIndexRef.current !== targetIndexRef.current) {

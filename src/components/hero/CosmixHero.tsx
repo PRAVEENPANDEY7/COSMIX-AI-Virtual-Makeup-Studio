@@ -25,9 +25,9 @@ export const CosmixHero: React.FC<CosmixHeroProps> = ({ onLaunchStudio }) => {
       ScrollTrigger.create({
         trigger: container,
         start: 'top top',
-        end: '+=460%', // Genuine, balanced luxury flow (neither too fast nor too slow)
+        end: '+=480%', // Balanced luxury flow tuned for 448 high-granularity frames
         pin: true,
-        scrub: 0.65, // Smooth, cinematic momentum
+        scrub: 0.65, // Ultra-smooth, cinematic scrub momentum
         anticipatePin: 1,
         invalidateOnRefresh: true, // Recalculates dynamically on viewport resize
         onUpdate: (self) => {

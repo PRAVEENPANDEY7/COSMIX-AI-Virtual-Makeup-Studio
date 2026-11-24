@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 
-export const TOTAL_FRAMES = 299;
+export const TOTAL_FRAMES = 448;
 
 function getFrameUrl(index: number): string {
   const pad = String(index).padStart(3, '0');
-  return `/assets/cosmix/sequence/ezgif-frame-${pad}.jpg`;
+  return `/assets/cosmix/sequence/frame-${pad}.jpg`;
 }
 
 export function useImageSequence() {
@@ -42,9 +42,9 @@ export function useImageSequence() {
       })
       .catch((err) => console.warn('Failed to load first frame:', err));
 
-    // Stage 2: Load Key Anchors (every 10th frame)
+    // Stage 2: Load Key Anchors (every 12th frame)
     const anchorIndices: number[] = [];
-    for (let i = 10; i <= TOTAL_FRAMES; i += 10) {
+    for (let i = 12; i <= TOTAL_FRAMES; i += 12) {
       anchorIndices.push(i);
     }
 
@@ -64,7 +64,7 @@ export function useImageSequence() {
         if (!imagesRef.current[i]) remainingIndices.push(i);
       }
 
-      const concurrency = 4;
+      const concurrency = 6;
       let currentIndex = 0;
 
       const worker = async () => {
@@ -102,7 +102,7 @@ export function useImageSequence() {
     }
 
     // Search nearest available frame
-    for (let offset = 1; offset < 30; offset++) {
+    for (let offset = 1; offset < 45; offset++) {
       if (clamped - offset >= 1 && imagesRef.current[clamped - offset]) {
         return imagesRef.current[clamped - offset];
       }
