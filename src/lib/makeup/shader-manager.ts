@@ -82,47 +82,30 @@ export class ShaderManager {
           return;
         }
 
-        // 1. High-frequency micro-crease & texture extraction (Sulci labiorum)
-        ivec2 texSize = textureSize(u_image, 0);
-        vec2 texel = 1.5 / vec2(float(texSize.x), float(texSize.y));
-
-        float lumC = getLum(orig.rgb);
-        float lumN = getLum(texture(u_image, v_texCoord + vec2(0.0, -texel.y)).rgb);
-        float lumS = getLum(texture(u_image, v_texCoord + vec2(0.0,  texel.y)).rgb);
-        float lumW = getLum(texture(u_image, v_texCoord + vec2(-texel.x, 0.0)).rgb);
-        float lumE = getLum(texture(u_image, v_texCoord + vec2( texel.x, 0.0)).rgb);
-        float localMeanLum = (lumN + lumS + lumW + lumE) * 0.25;
-
-        // Micro-crease contrast: preserves fine vertical lip lines and natural grain
-        float creaseDetail = clamp((lumC - localMeanLum) * 2.2, -0.35, 0.35);
-
-        // 2. Pigment infusion modulated by natural lip lighting
-        vec3 texturedLipstick = u_color * (pow(lumC, 0.8) * 1.45 + 0.12);
+        // Natural lighting modulation: preserves lip volume, 3D curves and natural shadows
+        float lum = getLum(orig.rgb);
+        vec3 deepPigment = u_color * (lum * 1.35 + 0.18);
         vec3 softBlended = softLight(orig.rgb, u_color);
-        vec3 blended = mix(softBlended, texturedLipstick, 0.62);
+        vec3 blended = mix(softBlended, deepPigment, 0.52);
 
-        // Re-inject physical lip wrinkles and surface texture
-        blended = clamp(blended + vec3(creaseDetail * 1.5), 0.0, 1.0);
-
-        // 3. PBR Finish-specific physical lighting response
+        // PBR Finish-specific physical lighting response
         if (u_finish == 0) {
-          // Matte: Soft velvety diffusion, suppresses harsh glare while enhancing wrinkle definition
-          if (lumC > 0.62) {
-            blended = mix(blended, u_color * 0.82, 0.4);
+          // Matte: Soft velvety diffusion, suppresses harsh glare while keeping rich pigment
+          if (lum > 0.65) {
+            blended = mix(blended, u_color * 0.88, 0.35);
           }
-          blended += vec3(creaseDetail * 0.4);
         } else if (u_finish == 1) {
           // Satin: Hydrating natural sheen centered on natural lip fullness
-          float satinSheen = pow(max(0.0, lumC), 2.2) * 0.35;
-          blended = mix(blended, blended + u_color * satinSheen, 0.55);
+          float satinSheen = pow(max(0.0, lum), 2.2) * 0.28;
+          blended = mix(blended, blended + u_color * satinSheen, 0.5);
         } else if (u_finish == 2) {
           // Gloss: High-specular wet liquid lacquer with natural light reflection
-          float glossSpec = pow(max(0.0, lumC), 3.2) * 0.88;
+          float glossSpec = pow(max(0.0, lum), 3.0) * 0.75;
           vec3 specTone = mix(vec3(1.0, 0.98, 0.95), u_color, 0.2);
           blended = blended + specTone * glossSpec;
         }
 
-        // 4. Smooth vermilion border falloff (cubic transition into natural skin)
+        // Smooth vermilion border falloff (cubic transition into natural skin)
         float smoothAlpha = smoothstep(0.0, 0.95, mask) * u_intensity;
         vec3 finalColor = clamp(mix(orig.rgb, blended, smoothAlpha), 0.0, 1.0);
 
