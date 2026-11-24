@@ -71,18 +71,63 @@ export const ImageCanvas: React.FC = () => {
   };
 
   const toggleFullscreen = () => {
-    if (!containerRef.current) return;
-    if (!document.fullscreenElement) {
-      containerRef.current.requestFullscreen().then(() => setIsFullscreen(true)).catch(() => {});
-    } else {
-      document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => {});
+    const nextState = !isFullscreen;
+    setIsFullscreen(nextState);
+
+    if (typeof document !== 'undefined') {
+      try {
+        const el = containerRef.current as any;
+        const doc = document as any;
+        if (nextState) {
+          if (el?.requestFullscreen) {
+            el.requestFullscreen().catch(() => {});
+          } else if (el?.webkitRequestFullscreen) {
+            el.webkitRequestFullscreen();
+          } else if (el?.mozRequestFullScreen) {
+            el.mozRequestFullScreen();
+          } else if (el?.msRequestFullscreen) {
+            el.msRequestFullscreen();
+          }
+        } else {
+          if (doc.exitFullscreen && doc.fullscreenElement) {
+            doc.exitFullscreen().catch(() => {});
+          } else if (doc.webkitExitFullscreen && doc.webkitFullscreenElement) {
+            doc.webkitExitFullscreen();
+          } else if (doc.mozCancelFullScreen && doc.mozFullScreenElement) {
+            doc.mozCancelFullScreen();
+          } else if (doc.msExitFullscreen && doc.msFullscreenElement) {
+            doc.msExitFullscreen();
+          }
+        }
+      } catch {
+        // Fall back cleanly to CSS fullscreen
+      }
     }
   };
+
+  useEffect(() => {
+    const onFSChange = () => {
+      const isFS = !!(document.fullscreenElement || (document as any).webkitFullscreenElement);
+      if (!isFS && isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+    document.addEventListener('fullscreenchange', onFSChange);
+    document.addEventListener('webkitfullscreenchange', onFSChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', onFSChange);
+      document.removeEventListener('webkitfullscreenchange', onFSChange);
+    };
+  }, [isFullscreen]);
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full aspect-[3/4] max-h-[65vh] sm:max-h-none sm:aspect-[16/11] lg:aspect-[4/3] rounded-3xl sm:rounded-[28px] overflow-hidden bg-[#180E13] border border-[#3E1D24]/40 shadow-2xl flex items-center justify-center group select-none"
+      className={`relative w-full overflow-hidden bg-[#180E13] border border-[#3E1D24]/40 shadow-2xl flex items-center justify-center group select-none transition-all duration-300 ${
+        isFullscreen
+          ? 'fixed inset-0 z-50 w-screen h-screen h-[100dvh] rounded-none border-none'
+          : 'aspect-[3/4] max-h-[65vh] sm:max-h-none sm:aspect-[16/11] lg:aspect-[4/3] rounded-3xl sm:rounded-[28px]'
+      }`}
     >
       <input
         ref={fileInputRef}
@@ -153,33 +198,36 @@ export const ImageCanvas: React.FC = () => {
       </div>
 
       {/* Right Edge Action Column */}
-      <div className="absolute right-2.5 sm:right-5 top-1/2 -translate-y-1/2 z-20 flex flex-col space-y-2 sm:space-y-2.5">
+      <div className="absolute right-2 sm:right-5 top-1/2 -translate-y-1/2 z-20 flex flex-col space-y-2.5 sm:space-y-3">
         <button
           onClick={toggleFullscreen}
-          className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/65 border border-white/15 backdrop-blur-md flex items-center justify-center text-white/90 hover:text-white transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
-          title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+          className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-black/50 hover:bg-black/75 border border-white/20 backdrop-blur-md flex items-center justify-center text-white/95 hover:text-white transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+          title={isFullscreen ? 'Exit Fullscreen' : 'Expand Fullscreen'}
+          aria-label={isFullscreen ? 'Exit Fullscreen' : 'Expand Fullscreen'}
         >
-          {isFullscreen ? <Minimize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Maximize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+          {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
         </button>
 
         <button
           onClick={handleDownload}
-          className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/65 border border-white/15 backdrop-blur-md flex items-center justify-center text-white/90 hover:text-white transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+          className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-black/50 hover:bg-black/75 border border-white/20 backdrop-blur-md flex items-center justify-center text-white/95 hover:text-white transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
           title="Save Photo"
+          aria-label="Save Photo"
         >
-          <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <Download className="w-4 h-4" />
         </button>
 
         <button
           onClick={() => setIsComparing(!isComparing)}
-          className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full border backdrop-blur-md flex items-center justify-center transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer ${
+          className={`w-9 h-9 sm:w-11 sm:h-11 rounded-full border backdrop-blur-md flex items-center justify-center transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer ${
             isComparing
-              ? 'bg-[#8B2D3E] text-white border-white/30'
-              : 'bg-black/40 hover:bg-black/65 border-white/15 text-white/90 hover:text-white'
+              ? 'bg-[#8B2D3E] text-white border-white/40'
+              : 'bg-black/50 hover:bg-black/75 border-white/20 text-white/95 hover:text-white'
           }`}
           title="Toggle Before / After Makeup"
+          aria-label="Toggle Before / After Makeup"
         >
-          <RefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <RefreshCw className="w-4 h-4" />
         </button>
       </div>
 

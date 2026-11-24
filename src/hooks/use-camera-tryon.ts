@@ -35,6 +35,7 @@ export function useCameraTryOn() {
 
   const [fps, setFps] = useState<number>(0);
   const [isFaceTracked, setIsFaceTracked] = useState<boolean>(false);
+  const [facingMode, setFacingMode] = useState<'user' | 'environment'>('user');
 
   const {
     isCameraActive,
@@ -59,18 +60,51 @@ export function useCameraTryOn() {
     };
   }, []);
 
-  const startCamera = useCallback(async () => {
+  const startCamera = useCallback(async (desiredMode?: 'user' | 'environment') => {
     if (!videoRef.current || !cameraManagerRef.current) return;
+    const mode = desiredMode || facingMode;
     try {
       setCameraError(null);
-      await cameraManagerRef.current.start(videoRef.current);
+      await cameraManagerRef.current.start(videoRef.current, {
+        facingMode: mode,
+        width: 1280,
+        height: 720,
+      });
+      setFacingMode(mode);
       setCameraActive(true);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to start webcam.';
+      const msg = err instanceof Error ? err.message : 'Failed to start camera.';
       setCameraError(msg);
       setCameraActive(false);
     }
-  }, [setCameraActive, setCameraError]);
+  }, [facingMode, setCameraActive, setCameraError]);
+
+  const flipCamera = useCallback(async () => {
+    if (!videoRef.current || !cameraManagerRef.current) return;
+    const nextMode = facingMode === 'user' ? 'environment' : 'user';
+    try {
+      setCameraError(null);
+      await cameraManagerRef.current.start(videoRef.current, {
+        facingMode: nextMode,
+        width: 1280,
+        height: 720,
+      });
+      setFacingMode(nextMode);
+    } catch {
+      // If environment camera is not available on this device, fall back to user camera
+      try {
+        await cameraManagerRef.current.start(videoRef.current, {
+          facingMode: 'user',
+          width: 1280,
+          height: 720,
+        });
+        setFacingMode('user');
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : 'Camera switch failed.';
+        setCameraError(msg);
+      }
+    }
+  }, [facingMode, setCameraError]);
 
   const stopCamera = useCallback(() => {
     if (animFrameIdRef.current) {
@@ -196,6 +230,8 @@ export function useCameraTryOn() {
     canvasRef,
     fps,
     isFaceTracked,
+    facingMode,
+    flipCamera,
     startCamera,
     stopCamera,
   };

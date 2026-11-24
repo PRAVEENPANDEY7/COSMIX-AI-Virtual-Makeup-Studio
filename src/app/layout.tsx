@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'COSMIX | Haute Beauté & Luxury Lipsticks',
+  title: 'COSMIX',
   description:
     'Experience the cinematic beauty campaign of COSMIX. Micro-milled couture pigments, weightless velvet wear, and interactive AI Virtual Try-On studio.',
   icons: {
