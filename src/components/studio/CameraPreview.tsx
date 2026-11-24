@@ -91,7 +91,7 @@ export const CameraPreview: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="relative w-full aspect-[4/3] sm:aspect-[16/11] lg:aspect-[4/3] rounded-[28px] overflow-hidden bg-[#180E13] border border-[#3E1D24]/40 shadow-2xl flex items-center justify-center group select-none"
+      className="relative w-full aspect-[3/4] max-h-[65vh] sm:max-h-none sm:aspect-[16/11] lg:aspect-[4/3] rounded-3xl sm:rounded-[28px] overflow-hidden bg-[#180E13] border border-[#3E1D24]/40 shadow-2xl flex items-center justify-center group select-none"
     >
       {/* Hidden file input for Choose Photo */}
       <input
@@ -140,9 +140,9 @@ export const CameraPreview: React.FC = () => {
       )}
 
       {/* Top Floating Controls Overlay */}
-      <div className="absolute top-4 sm:top-5 left-4 sm:left-5 right-4 sm:right-5 z-20 flex items-center justify-between pointer-events-none">
+      <div className="absolute top-2.5 sm:top-5 left-2.5 sm:left-5 right-2.5 sm:right-5 z-20 flex items-center justify-between pointer-events-none gap-1.5 sm:gap-2">
         {/* Top-Left: Back to Studio Models & Tracking Badges */}
-        <div className="flex items-center space-x-2 pointer-events-auto">
+        <div className="flex items-center space-x-1.5 sm:space-x-2 pointer-events-auto">
           {/* Back button to Model selection page */}
           <button
             onClick={() => {
@@ -151,15 +151,16 @@ export const CameraPreview: React.FC = () => {
               store.resetSession();
               store.setMode('upload');
             }}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-black/60 hover:bg-black/85 text-white border border-white/20 backdrop-blur-md text-xs font-sans font-medium transition-all cursor-pointer shadow-md group"
+            className="flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-black/60 hover:bg-black/85 text-white border border-white/20 backdrop-blur-md text-xs font-sans font-medium transition-all cursor-pointer shadow-md group shrink-0"
             title="Go back to Model portraits & photo selection"
           >
             <ChevronLeft className="w-3.5 h-3.5 text-cosmix-gold group-hover:-translate-x-0.5 transition-transform" />
-            <span className="font-medium text-white/95">Studio Models</span>
+            <span className="font-medium text-white/95 hidden xs:inline">Studio Models</span>
+            <span className="font-medium text-white/95 xs:hidden">Models</span>
           </button>
 
           <div
-            className={`flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-mono backdrop-blur-md border shrink-0 ${
+            className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-mono backdrop-blur-md border shrink-0 ${
               isFaceTracked
                 ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
                 : 'bg-amber-500/15 text-amber-300 border-amber-500/30'
@@ -171,14 +172,14 @@ export const CameraPreview: React.FC = () => {
           </div>
 
           {isCameraActive && (
-            <div className="bg-white/10 text-white/90 backdrop-blur-md px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-mono border border-white/10 shrink-0">
+            <div className="hidden sm:block bg-white/10 text-white/90 backdrop-blur-md px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-mono border border-white/10 shrink-0">
               {fps || 18} FPS
             </div>
           )}
         </div>
 
         {/* Top-Right: Choose Photo & Stop/Start Camera Buttons */}
-        <div className="flex items-center space-x-1.5 sm:space-x-2 pointer-events-auto">
+        <div className="flex items-center space-x-1 sm:space-x-2 pointer-events-auto shrink-0">
           <button
             onClick={() => fileInputRef.current?.click()}
             className="flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-4 py-1 sm:py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-full text-[11px] sm:text-xs font-sans backdrop-blur-md border border-white/15 transition-all cursor-pointer shrink-0"

@@ -82,7 +82,7 @@ export const ImageCanvas: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="relative w-full aspect-[4/3] sm:aspect-[16/11] lg:aspect-[4/3] rounded-[28px] overflow-hidden bg-[#180E13] border border-[#3E1D24]/40 shadow-2xl flex items-center justify-center group select-none"
+      className="relative w-full aspect-[3/4] max-h-[65vh] sm:max-h-none sm:aspect-[16/11] lg:aspect-[4/3] rounded-3xl sm:rounded-[28px] overflow-hidden bg-[#180E13] border border-[#3E1D24]/40 shadow-2xl flex items-center justify-center group select-none"
     >
       <input
         ref={fileInputRef}

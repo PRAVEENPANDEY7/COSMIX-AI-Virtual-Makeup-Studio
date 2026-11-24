@@ -16,8 +16,8 @@ export const TryOnStudio: React.FC = () => {
   }
 
   return (
-    <div className="w-full max-w-[1360px] mx-auto px-3 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-8 items-start w-full">
+    <div className="w-full max-w-[1360px] mx-auto px-2.5 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-6 lg:gap-8 items-start w-full">
         {/* Left Column: Live Camera Mirror / Viewport (7 cols) */}
         <div className="lg:col-span-7 w-full">
           {mode === 'camera' || !originalImage ? (
