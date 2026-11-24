@@ -222,8 +222,8 @@ export const ScrollStoryText: React.FC<ScrollStoryTextProps> = ({
               className="md:hidden absolute bottom-14 sm:bottom-16 inset-x-0 px-6 flex flex-col items-center justify-end text-center pointer-events-none"
             >
               <div className="w-full max-w-xs mx-auto flex flex-col items-center">
-                <h2 className="font-serif text-2xl xs:text-3xl font-normal text-white leading-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]">
-                  {phase.left.headline} <span className="italic font-light text-cosmix-dusty">{phase.right.headline}</span>
+                <h2 className="font-serif text-2xl xs:text-3xl font-normal text-white leading-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+                  {phase.left.headline} <span className="italic font-normal text-white">{phase.right.headline}</span>
                 </h2>
                 <p className="font-sans text-xs text-white/95 leading-relaxed mt-2 max-w-[280px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] font-normal">
                   {phase.left.body}
