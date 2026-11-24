@@ -5,7 +5,6 @@ import {
   Download,
   RefreshCw,
   Upload,
-  Eye,
   Camera,
   Maximize2,
   Minimize2,
@@ -29,7 +28,6 @@ export const ImageCanvas: React.FC = () => {
     intensity,
     isComparing,
     compareRatio,
-    isFaceDetected,
     setOriginalImage,
     setMode,
     setIsComparing,
@@ -145,7 +143,7 @@ export const ImageCanvas: React.FC = () => {
 
       {/* Top Floating Controls */}
       <div className="absolute top-2.5 sm:top-5 left-2.5 sm:left-5 right-2.5 sm:right-5 z-20 flex items-center justify-between pointer-events-none gap-2">
-        {/* Top-Left: Back to Studio Models + Face Mesh Status */}
+        {/* Top-Left: Back to Studio Models */}
         <div className="flex items-center space-x-1.5 sm:space-x-2 pointer-events-auto">
           <button
             onClick={() => {
@@ -160,19 +158,6 @@ export const ImageCanvas: React.FC = () => {
             <span className="font-medium text-white/95 hidden xs:inline">Studio Models</span>
             <span className="font-medium text-white/95 xs:hidden">Models</span>
           </button>
-
-          {isFaceDetected ? (
-            <div className="flex items-center space-x-1 sm:space-x-1.5 bg-emerald-500/15 text-emerald-300 backdrop-blur-md px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-mono border border-emerald-500/30 shrink-0">
-              <Eye className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-400 shrink-0" />
-              <span className="hidden xs:inline">Face Tracked</span>
-              <span className="xs:hidden">Tracked</span>
-            </div>
-          ) : (
-            <div className="flex items-center space-x-1 sm:space-x-1.5 bg-amber-500/15 text-amber-300 backdrop-blur-md px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-mono border border-amber-500/30 shrink-0">
-              <span className="hidden xs:inline">Scanning Face...</span>
-              <span className="xs:hidden">Scanning...</span>
-            </div>
-          )}
         </div>
 
         {/* Top-Right: Change Photo & Switch to Camera */}

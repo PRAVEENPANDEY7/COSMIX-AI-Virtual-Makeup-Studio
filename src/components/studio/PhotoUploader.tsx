@@ -7,29 +7,29 @@ import { loadImageFromFile } from '@/lib/image/image-loader';
 import { useFaceLandmarks } from '@/hooks/use-face-landmarks';
 import { ProcessingStatus } from './ProcessingStatus';
 
-// Studio Models: Riya, Siddhi, Apoorva, Soumya (High-Res Studio Portraits with Clean Aesthetic Background)
+// Studio Models: Amara, Meera, Zoya, Tara (High-Res Studio Portraits with Clean Aesthetic Background)
 const STUDIO_MODELS = [
   {
-    id: 'riya',
-    name: 'Riya',
+    id: 'amara',
+    name: 'Amara',
     skinTone: 'Dusky Deep',
     url: '/assets/cosmix/models/model-riya.png',
   },
   {
-    id: 'siddhi',
-    name: 'Siddhi',
+    id: 'meera',
+    name: 'Meera',
     skinTone: 'Fair Warm',
     url: '/assets/cosmix/models/model-siddhi.png',
   },
   {
-    id: 'apoorva',
-    name: 'Apoorva',
-    skinTone: 'Neutral Honey',
+    id: 'zoya',
+    name: 'Zoya',
+    skinTone: 'Honey Warm',
     url: '/assets/cosmix/models/model-apoorva.png',
   },
   {
-    id: 'soumya',
-    name: 'Soumya',
+    id: 'tara',
+    name: 'Tara',
     skinTone: 'Rich Caramel',
     url: '/assets/cosmix/models/model-soumya.png',
   },
