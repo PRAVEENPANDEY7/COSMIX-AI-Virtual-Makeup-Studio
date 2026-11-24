@@ -73,12 +73,14 @@ export const CosmixHero: React.FC<CosmixHeroProps> = ({ onLaunchStudio }) => {
           transform: `translateY(${scrollProgress * 60}px)`,
           transition: 'opacity 0.2s ease',
         }}
-        className="absolute bottom-8 inset-x-0 z-20 flex flex-col items-center justify-center space-y-2 pointer-events-none text-white drop-shadow-md"
+        className="absolute bottom-6 sm:bottom-8 inset-x-0 z-20 flex flex-col items-center justify-center pointer-events-none"
       >
-        <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-cosmix-gold drop-shadow-sm font-semibold">
-          Scroll to Discover
-        </span>
-        <ChevronDown className="w-4 h-4 animate-bounce text-cosmix-gold" />
+        <div className="inline-flex items-center space-x-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-black/45 backdrop-blur-md border border-white/25 shadow-xl">
+          <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.25em] uppercase text-white font-medium">
+            Scroll to Discover
+          </span>
+          <ChevronDown className="w-3.5 h-3.5 animate-bounce text-white" />
+        </div>
       </div>
     </section>
   );
