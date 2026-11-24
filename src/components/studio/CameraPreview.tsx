@@ -5,7 +5,6 @@ import {
   ScanFace,
   CameraOff,
   Video,
-  Activity,
   AlertTriangle,
   Image as ImageIcon,
   Camera,
@@ -28,7 +27,6 @@ export const CameraPreview: React.FC = () => {
   const {
     videoRef,
     canvasRef,
-    isFaceTracked,
     facingMode,
     flipCamera,
     startCamera,
@@ -192,7 +190,7 @@ export const CameraPreview: React.FC = () => {
 
       {/* Top Floating Controls Overlay */}
       <div className="absolute top-2.5 sm:top-5 left-2.5 sm:left-5 right-2.5 sm:right-5 z-20 flex items-center justify-between pointer-events-none gap-1.5 sm:gap-2">
-        {/* Top-Left: Back to Studio Models & Tracking Badges */}
+        {/* Top-Left: Back to Studio Models */}
         <div className="flex items-center space-x-1.5 sm:space-x-2 pointer-events-auto">
           {/* Back button to Model selection page */}
           <button
@@ -209,18 +207,6 @@ export const CameraPreview: React.FC = () => {
             <span className="font-medium text-white/95 hidden xs:inline">Studio Models</span>
             <span className="font-medium text-white/95 xs:hidden">Models</span>
           </button>
-
-          <div
-            className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-mono backdrop-blur-md border shrink-0 ${
-              isFaceTracked
-                ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
-                : 'bg-amber-500/15 text-amber-300 border-amber-500/30'
-            }`}
-          >
-            <Activity className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
-            <span className="hidden xs:inline">{isFaceTracked ? 'Face Tracked' : 'Center Face'}</span>
-            <span className="xs:hidden">{isFaceTracked ? 'Tracked' : 'Align'}</span>
-          </div>
         </div>
 
         {/* Top-Right: Choose Photo & Stop/Start Camera Buttons */}
