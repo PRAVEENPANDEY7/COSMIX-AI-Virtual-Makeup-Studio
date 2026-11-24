@@ -86,9 +86,9 @@ export const ShadeDiscovery: React.FC<ShadeDiscoveryProps> = ({ onOpenTryOn }) =
   };
 
   return (
-    <section id="shades" className="py-12 sm:py-16 lg:py-20 bg-cosmix-cream text-cosmix-dark relative overflow-hidden">
-      {/* Subtle background watermark */}
-      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] font-serif text-[240px] lg:text-[300px] font-bold text-cosmix-wine leading-none">
+    <section id="shades" className="pt-16 sm:pt-20 lg:pt-24 pb-12 sm:pb-16 lg:py-20 bg-cosmix-cream text-cosmix-dark relative overflow-hidden">
+      {/* Subtle background watermark (constrained on mobile so it doesn't overflow) */}
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] font-serif text-[120px] sm:text-[220px] lg:text-[300px] font-bold text-cosmix-wine leading-none overflow-hidden hidden sm:block">
         ATELIER
       </div>
 
@@ -131,65 +131,65 @@ export const ShadeDiscovery: React.FC<ShadeDiscoveryProps> = ({ onOpenTryOn }) =
           </div>
         </div>
 
-        {/* Slick, Open Canvas Workspace (No card "dabbe" containers, 1.1x Balanced Scale) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-20 items-center">
+        {/* Slick, Open Canvas Workspace */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 xl:gap-20 items-center">
           {/* Left Column: Freely Floating 3D Lipstick Bullet Showcase */}
           <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
             {/* Atmospheric Diffuse Glow matching the active lipstick shade */}
             <div
-              className="absolute w-76 h-76 sm:w-88 sm:h-88 rounded-full blur-3xl opacity-35 transition-all duration-700 pointer-events-none -translate-y-4"
+              className="absolute w-64 h-64 sm:w-80 sm:h-80 rounded-full blur-3xl opacity-35 transition-all duration-700 pointer-events-none -translate-y-4"
               style={{ backgroundColor: activeShade.hex }}
             />
 
-            {/* Floating 3D Lipstick Bullet (1.1x Scale) */}
-            <div className="relative z-10 flex flex-col items-center py-4 group transition-transform duration-500 hover:scale-[1.03]">
+            {/* Floating 3D Lipstick Bullet (Fully Responsive Tip, Collar & Base) */}
+            <div className="relative z-10 flex flex-col items-center py-2 sm:py-4 group transition-transform duration-500 hover:scale-[1.03]">
               {/* Bullet Tip */}
               <div
-                className="w-22 sm:w-24 h-40 sm:h-44 rounded-t-full shadow-2xl transition-colors duration-500 relative overflow-hidden"
+                className="w-20 sm:w-24 h-36 sm:h-44 rounded-t-full shadow-2xl transition-colors duration-500 relative overflow-hidden"
                 style={{
                   backgroundColor: activeShade.hex,
                   boxShadow: 'inset -8px 0 16px rgba(0,0,0,0.32), inset 5px 0 10px rgba(255,255,255,0.45), 0 12px 24px rgba(0,0,0,0.12)',
                 }}
               >
-                <div className="absolute inset-y-0 left-4 w-2.5 bg-white/35 blur-xs transform -skew-x-12" />
+                <div className="absolute inset-y-0 left-3.5 sm:left-4 w-2.5 bg-white/35 blur-xs transform -skew-x-12" />
               </div>
 
               {/* Gold Ring Collar */}
-              <div className="w-26 sm:w-28 h-5.5 bg-gradient-to-r from-cosmix-gold via-[#f3e3ce] to-cosmix-gold border-y border-[#b08b52] shadow-sm" />
+              <div className="w-24 sm:w-28 h-5 sm:h-6 bg-gradient-to-r from-cosmix-gold via-[#f3e3ce] to-cosmix-gold border-y border-[#b08b52] shadow-sm" />
 
               {/* Luxury Base Casing */}
-              <div className="w-26 sm:w-28 h-44 sm:h-48 bg-gradient-to-r from-[#211114] via-[#462427] to-[#211114] rounded-b-md shadow-2xl flex flex-col items-center justify-between py-4 border-t border-cosmix-gold/30">
+              <div className="w-24 sm:w-28 h-40 sm:h-48 bg-gradient-to-r from-[#211114] via-[#462427] to-[#211114] rounded-b-md shadow-2xl flex flex-col items-center justify-between py-3.5 sm:py-4 border-t border-cosmix-gold/30">
                 <span className="font-serif text-[11px] tracking-[0.32em] text-cosmix-gold/90 uppercase font-semibold">
                   COSMIX
                 </span>
-                <div className="w-10 h-px bg-cosmix-gold/40" />
+                <div className="w-8 sm:w-10 h-px bg-cosmix-gold/40" />
                 <span className="font-mono text-[9px] text-cosmix-gold/70 tracking-widest">
                   STUDIO
                 </span>
               </div>
 
               {/* Grounding Contact Shadow */}
-              <div className="w-36 h-4 rounded-full bg-cosmix-wine/15 blur-md -mt-1" />
+              <div className="w-32 sm:w-36 h-3.5 sm:h-4 rounded-full bg-cosmix-wine/15 blur-md -mt-1" />
             </div>
 
-            {/* Slick Arrow Navigation Directly Beneath Lipstick (No box boundary) */}
-            <div className="w-full max-w-xs flex items-center justify-between pt-6 mt-2">
+            {/* Slick Arrow Navigation Directly Beneath Lipstick */}
+            <div className="w-full max-w-xs flex items-center justify-between pt-4 sm:pt-6 mt-1 sm:mt-2">
               {/* Previous Shade Arrow */}
               <button
                 onClick={handlePrevShade}
-                className="w-10 h-10 rounded-full border border-cosmix-wine/20 bg-white/70 hover:bg-white text-cosmix-wine flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-2xs cursor-pointer group"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-cosmix-wine/20 bg-white/70 hover:bg-white text-cosmix-wine flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-2xs cursor-pointer group"
                 title="Previous Shade"
                 aria-label="Previous Shade"
               >
-                <ChevronLeft className="w-5 h-5 text-cosmix-wine group-hover:-translate-x-0.5 transition-transform" />
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-cosmix-wine group-hover:-translate-x-0.5 transition-transform" />
               </button>
 
               {/* Active Shade Name & Finish */}
-              <div className="flex flex-col items-center text-center px-4">
-                <span className="font-serif text-xl sm:text-2xl font-normal text-cosmix-wine leading-tight">
+              <div className="flex flex-col items-center text-center px-3 sm:px-4">
+                <span className="font-serif text-lg sm:text-2xl font-normal text-cosmix-wine leading-tight">
                   {activeShade.name}
                 </span>
-                <span className="text-[11px] font-mono uppercase text-cosmix-deep tracking-widest mt-1">
+                <span className="text-[10px] sm:text-[11px] font-mono uppercase text-cosmix-deep tracking-wider sm:tracking-widest mt-0.5 sm:mt-1">
                   {activeShade.finish} • {activeShade.undertone}
                 </span>
               </div>
@@ -197,11 +197,11 @@ export const ShadeDiscovery: React.FC<ShadeDiscoveryProps> = ({ onOpenTryOn }) =
               {/* Next Shade Arrow */}
               <button
                 onClick={handleNextShade}
-                className="w-10 h-10 rounded-full border border-cosmix-wine/20 bg-white/70 hover:bg-white text-cosmix-wine flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-2xs cursor-pointer group"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-cosmix-wine/20 bg-white/70 hover:bg-white text-cosmix-wine flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-2xs cursor-pointer group"
                 title="Next Shade"
                 aria-label="Next Shade"
               >
-                <ChevronRight className="w-5 h-5 text-cosmix-wine group-hover:translate-x-0.5 transition-transform" />
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-cosmix-wine group-hover:translate-x-0.5 transition-transform" />
               </button>
             </div>
           </div>

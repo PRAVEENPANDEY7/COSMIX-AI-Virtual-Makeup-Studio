@@ -34,15 +34,15 @@ export const Header: React.FC<HeaderProps> = ({ onOpenStudio }) => {
     }
 
     const checkScrollContrast = () => {
-      // Find the first light content section (#shades)
-      const shadesSection = document.getElementById('shades');
-      if (shadesSection) {
-        const rect = shadesSection.getBoundingClientRect();
-        // When top of #shades reaches near or past the header (e.g. <= 90px)
-        setIsScrolledToLight(rect.top <= 90);
+      // Find the first light content section (#story or #shades)
+      const lightSection = document.getElementById('story') || document.getElementById('shades');
+      if (lightSection) {
+        const rect = lightSection.getBoundingClientRect();
+        // When top of light section reaches near or past the header (<= 70px)
+        setIsScrolledToLight(rect.top <= 70);
       } else {
         // Fallback for general scroll position past the pinned canvas
-        setIsScrolledToLight(window.scrollY > window.innerHeight * 3.8);
+        setIsScrolledToLight(window.scrollY > 300);
       }
     };
 
@@ -73,8 +73,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenStudio }) => {
   const badgeBg = isLightMode ? 'bg-cosmix-wine text-white' : 'bg-cosmix-dusty text-white';
   const hamburgerColor = isLightMode ? 'text-cosmix-wine' : 'text-white';
 
-  // Header container: ALWAYS 100% transparent (no glass/blur/border box), smooth padding
-  const headerContainerClass = 'bg-transparent py-3.5 sm:py-6 transition-all duration-300';
+  // Header container: on dark hero transparent, when scrolled into light sections gives a luxury blur background
+  const headerContainerClass = isLightMode
+    ? 'bg-[#FFF8F5]/95 backdrop-blur-md border-b border-[#F4DDD5]/60 shadow-xs py-3 sm:py-4 transition-all duration-300'
+    : 'bg-transparent py-4 sm:py-6 transition-all duration-300';
 
   return (
     <header className={`fixed top-0 inset-x-0 z-50 pointer-events-none select-none ${headerContainerClass}`}>
