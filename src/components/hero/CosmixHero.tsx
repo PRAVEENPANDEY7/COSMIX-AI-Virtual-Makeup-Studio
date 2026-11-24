@@ -21,29 +21,52 @@ export const CosmixHero: React.FC<CosmixHeroProps> = ({ onLaunchStudio }) => {
     const container = containerRef.current;
     if (!container) return;
 
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: container,
-        start: 'top top',
-        end: '+=480%', // Balanced luxury flow tuned for 448 high-granularity frames
-        pin: true,
-        scrub: 0.65, // Ultra-smooth, cinematic scrub momentum
-        anticipatePin: 1,
-        invalidateOnRefresh: true, // Recalculates dynamically on viewport resize
-        onUpdate: (self) => {
-          setScrollProgress(self.progress);
-        },
-      });
-    }, container);
+    // Use gsap.matchMedia for seamless desktop <-> mobile responsive transitions without freezing
+    const mm = gsap.matchMedia();
 
+    mm.add(
+      {
+        isDesktop: '(min-width: 768px)',
+        isMobile: '(max-width: 767px)',
+      },
+      (context) => {
+        const { isDesktop } = context.conditions as { isDesktop: boolean; isMobile: boolean };
+
+        ScrollTrigger.create({
+          trigger: container,
+          start: 'top top',
+          end: isDesktop ? '+=480%' : '+=380%',
+          pin: true,
+          pinSpacing: true,
+          scrub: 0.65,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          fastScrollEnd: true,
+          preventOverlaps: true,
+          onUpdate: (self) => {
+            setScrollProgress(self.progress);
+          },
+        });
+      }
+    );
+
+    // Debounced safe refresh for smooth window resizing without locking pin-spacer
+    let resizeTimer: ReturnType<typeof setTimeout>;
     const handleResize = () => {
-      ScrollTrigger.refresh();
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        ScrollTrigger.refresh(true);
+      }, 100);
     };
+
     window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
 
     return () => {
+      clearTimeout(resizeTimer);
       window.removeEventListener('resize', handleResize);
-      ctx.revert();
+      window.removeEventListener('orientationchange', handleResize);
+      mm.revert();
     };
   }, []);
 

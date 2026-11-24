@@ -81,24 +81,41 @@ export const ImageSequenceCanvas: React.FC<ImageSequenceCanvasProps> = ({
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
 
     const targetWidth = Math.round(rect.width * dpr);
     const targetHeight = Math.round(rect.height * dpr);
 
-    if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+    if (
+      targetWidth > 0 &&
+      targetHeight > 0 &&
+      (canvas.width !== targetWidth || canvas.height !== targetHeight)
+    ) {
       canvas.width = targetWidth;
       canvas.height = targetHeight;
-      renderFrameToCanvas(currentIndexRef.current);
+      renderFrameToCanvas(Math.round(currentIndexRef.current));
     }
   }, [renderFrameToCanvas]);
 
-  // Handle window resize events
+  // Handle window resize events and ResizeObserver for instant responsive re-render
   useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
     handleResize();
+
+    const observer = new ResizeObserver(() => {
+      handleResize();
+    });
+    observer.observe(canvas);
+
     window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
     };
   }, [handleResize]);
 
