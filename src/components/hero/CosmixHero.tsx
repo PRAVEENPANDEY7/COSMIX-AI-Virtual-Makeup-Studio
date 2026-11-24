@@ -66,21 +66,19 @@ export const CosmixHero: React.FC<CosmixHeroProps> = ({ onLaunchStudio }) => {
         />
       </div>
 
-      {/* Scroll Down Cue (Fades as user scrolls) */}
+      {/* Scroll Down Cue (Fades as user scrolls) - 100% Transparent */}
       <div
         style={{
           opacity: Math.max(0, 1 - scrollProgress * 15),
           transform: `translateY(${scrollProgress * 60}px)`,
           transition: 'opacity 0.2s ease',
         }}
-        className="absolute bottom-6 sm:bottom-8 inset-x-0 z-20 flex flex-col items-center justify-center pointer-events-none"
+        className="absolute bottom-6 sm:bottom-8 inset-x-0 z-20 flex flex-col items-center justify-center space-y-1.5 pointer-events-none"
       >
-        <div className="inline-flex items-center space-x-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-black/45 backdrop-blur-md border border-white/25 shadow-xl">
-          <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.25em] uppercase text-white font-medium">
-            Scroll to Discover
-          </span>
-          <ChevronDown className="w-3.5 h-3.5 animate-bounce text-white" />
-        </div>
+        <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.3em] uppercase text-white font-semibold drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]">
+          Scroll to Discover
+        </span>
+        <ChevronDown className="w-4 h-4 animate-bounce text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]" />
       </div>
     </section>
   );
