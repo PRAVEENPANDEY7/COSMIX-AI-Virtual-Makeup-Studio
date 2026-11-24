@@ -35,23 +35,23 @@ export default function AboutCosmixPage() {
       <Header />
 
       {/* Main Content: Full-width container aligning 1:1 with Header and Footer */}
-      <main className="flex-1 pt-28 sm:pt-36 pb-20 sm:pb-28">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20 space-y-20 sm:space-y-28">
+      <main className="flex-1 pt-20 sm:pt-36 pb-16 sm:pb-28">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-10 lg:px-16 xl:px-20 space-y-16 sm:space-y-28">
           {/* ========================================================= */}
           {/* 1. HERO & REAL-LIFE PROBLEM (Full 12-Column Layout)       */}
           {/* ========================================================= */}
-          <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-20 items-center">
+          <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 xl:gap-20 items-center">
             {/* Left 7 Columns: Story & Problem Breakdown */}
-            <div className="lg:col-span-7 space-y-6 sm:space-y-7">
+            <div className="lg:col-span-7 space-y-4 sm:space-y-7">
               <div className="inline-flex items-center space-x-2.5">
                 <span className="text-[#8B2D3E] text-xs">✦</span>
-                <span className="text-[11px] font-mono tracking-[0.25em] uppercase text-[#8B2D3E] font-semibold">
+                <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.25em] uppercase text-[#8B2D3E] font-semibold">
                   THE STORY BEHIND COSMIX
                 </span>
-                <span className="w-12 h-px bg-[#8B2D3E]/30" />
+                <span className="w-8 sm:w-12 h-px bg-[#8B2D3E]/30" />
               </div>
 
-              <h1 className="font-serif text-4xl sm:text-5xl lg:text-[56px] xl:text-[62px] font-normal tracking-tight text-[#32171F] leading-[1.08]">
+              <h1 className="font-serif text-3xl sm:text-5xl lg:text-[56px] xl:text-[62px] font-normal tracking-tight text-[#32171F] leading-[1.1]">
                 Born from a Real-Life Frustration.
                 <br />
                 <span className="italic font-normal text-[#963E4B]">

@@ -103,23 +103,23 @@ export default function ExploreShadesPage() {
       {/* Existing Header (STRICT SCOPE: Untouched) */}
       <Header />
 
-      <main className="flex-1 pt-28 sm:pt-32 pb-20 max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-12 w-full">
+      <main className="flex-1 pt-20 sm:pt-32 pb-16 sm:pb-20 max-w-[1360px] mx-auto px-4 sm:px-10 lg:px-12 w-full">
         {/* 1. Hero Section (Exact Match to Reference) */}
-        <section className="mb-8 sm:mb-12">
+        <section className="mb-6 sm:mb-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
             {/* Left Column: Heading & Editorial Eyebrow */}
-            <div className="lg:col-span-7 space-y-3 sm:space-y-4">
+            <div className="lg:col-span-7 space-y-2.5 sm:space-y-4">
               {/* Eyebrow with horizontal hairline */}
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2.5 sm:space-x-3">
                 <Sparkle className="w-3.5 h-3.5 text-[#8B2D3E] stroke-[1.5]" />
-                <span className="text-[11px] font-mono tracking-[0.24em] text-[#32171F] uppercase font-semibold">
+                <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.24em] text-[#32171F] uppercase font-semibold">
                   VIRTUAL COLOR LIBRARY
                 </span>
-                <div className="h-px bg-[#32171F]/15 w-20 sm:w-28" />
+                <div className="h-px bg-[#32171F]/15 w-16 sm:w-28" />
               </div>
 
               {/* Main Heading */}
-              <h1 className="font-serif text-4xl sm:text-5xl lg:text-[62px] font-light text-[#32171F] tracking-tight leading-[1.08]">
+              <h1 className="font-serif text-3xl sm:text-5xl lg:text-[62px] font-light text-[#32171F] tracking-tight leading-[1.1]">
                 Explore <span className="italic font-normal text-[#8B2D3E]">35</span> Bespoke Shades.
               </h1>
 
@@ -134,7 +134,7 @@ export default function ExploreShadesPage() {
               <img
                 src="/assets/cosmix/hero-lipstick-clean.png"
                 alt="COSMIX Bespoke Lipstick and Swatches"
-                className="w-full max-w-[380px] sm:max-w-[420px] lg:max-w-[460px] h-auto object-contain"
+                className="w-full max-w-[300px] sm:max-w-[420px] lg:max-w-[460px] h-auto object-contain"
               />
             </div>
           </div>
@@ -144,7 +144,7 @@ export default function ExploreShadesPage() {
         <div ref={gridTopRef} className="-translate-y-24" />
 
         {/* 2. Horizontal Filter Pill Bar (Single continuous pill container) */}
-        <section className="bg-white rounded-full p-2 sm:p-2.5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-[#F4DDD5]/70 mb-10 flex flex-col md:flex-row items-center justify-between gap-3">
+        <section className="bg-white rounded-2xl md:rounded-full p-2.5 sm:p-2.5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-[#F4DDD5]/70 mb-8 sm:mb-10 flex flex-col md:flex-row items-center justify-between gap-3">
           {/* Left: Category Filters */}
           <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none">
             {/* All Shades Button */}

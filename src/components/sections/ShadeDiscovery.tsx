@@ -93,24 +93,23 @@ export const ShadeDiscovery: React.FC<ShadeDiscoveryProps> = ({ onOpenTryOn }) =
       </div>
 
       {/* Stretched Luxury Container */}
-      <div className="w-full max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20 relative z-10">
+      <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-10 lg:px-16 xl:px-20 relative z-10">
         {/* Streamlined Top Bar: Title & Family Filters without boxes */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 pb-8 mb-10 border-b border-cosmix-wine/10">
-          <div className="space-y-1.5">
-            <div className="inline-flex items-center space-x-2 text-[11px] font-mono tracking-[0.28em] uppercase text-cosmix-deep">
-              <span className="w-6 h-px bg-cosmix-deep inline-block" />
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-5 pb-6 sm:pb-8 mb-8 sm:mb-10 border-b border-cosmix-wine/10">
+          <div className="space-y-1 sm:space-y-1.5">
+            <div className="inline-flex items-center space-x-2 text-[10px] sm:text-[11px] font-mono tracking-[0.28em] uppercase text-cosmix-deep">
+              <span className="w-4 sm:w-6 h-px bg-cosmix-deep inline-block" />
               <span>Virtual Shade Atelier</span>
             </div>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-[48px] font-light tracking-tight text-cosmix-wine leading-tight">
+            <h2 className="font-serif text-2xl sm:text-4xl lg:text-[48px] font-light tracking-tight text-cosmix-wine leading-tight">
               Discover Your Shade. <span className="italic font-normal">Before you decide.</span>
             </h2>
           </div>
 
-          {/* Minimalist Family Filter Pills (1.1x Scale) */}
-          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pb-1">
+          {/* Minimalist Family Filter Pills */}
+          <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-none pb-1 -mx-1 px-1">
             {SHADE_FAMILIES.map((family) => {
               const isActive = activeFamily === family.id;
-              const familyCount = COSMIX_SHADES.filter((s) => s.family === family.id).length;
               return (
                 <button
                   key={family.id}
@@ -119,7 +118,7 @@ export const ShadeDiscovery: React.FC<ShadeDiscoveryProps> = ({ onOpenTryOn }) =
                     const firstOfFamily = COSMIX_SHADES.find((s) => s.family === family.id);
                     if (firstOfFamily) setActiveShade(firstOfFamily);
                   }}
-                  className={`px-4.5 py-2 rounded-full text-xs sm:text-[13px] font-sans tracking-wide transition-all whitespace-nowrap cursor-pointer ${
+                  className={`px-3.5 sm:px-4.5 py-1.5 sm:py-2 rounded-full text-xs sm:text-[13px] font-sans tracking-wide transition-all whitespace-nowrap cursor-pointer ${
                     isActive
                       ? 'bg-cosmix-wine text-white font-medium shadow-sm'
                       : 'bg-white/60 text-cosmix-wine/75 hover:bg-white hover:text-cosmix-wine border border-cosmix-dusty/25'

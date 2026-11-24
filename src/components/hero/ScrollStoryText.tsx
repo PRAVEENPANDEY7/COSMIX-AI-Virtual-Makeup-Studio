@@ -155,7 +155,7 @@ export const ScrollStoryText: React.FC<ScrollStoryTextProps> = ({
         return (
           <div
             key={phase.id}
-            className="absolute inset-0 pointer-events-none flex items-center justify-between px-6 sm:px-10 lg:px-14 xl:px-16"
+            className="absolute inset-0 pointer-events-none flex flex-col md:flex-row items-center justify-between px-4 sm:px-10 lg:px-14 xl:px-16"
           >
             {/* Left Story Column (glides from left, then dissipates) */}
             <div
@@ -164,12 +164,12 @@ export const ScrollStoryText: React.FC<ScrollStoryTextProps> = ({
                 transform: `translateX(${leftTranslateX}px)`,
                 transition: 'opacity 0.12s ease-out, transform 0.12s ease-out',
               }}
-              className="max-w-[280px] sm:max-w-sm lg:max-w-md xl:max-w-lg text-left flex flex-col items-start -translate-y-4 sm:-translate-y-6"
+              className="w-full md:w-auto max-w-[280px] sm:max-w-sm lg:max-w-md xl:max-w-lg text-center md:text-left flex flex-col items-center md:items-start pt-16 sm:pt-20 md:pt-0 -translate-y-0 md:-translate-y-6"
             >
-              <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-normal text-white tracking-tight leading-[1.05] drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
+              <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-white tracking-tight leading-[1.08] drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
                 {phase.left.headline}
               </h2>
-              <p className="font-sans text-xs sm:text-sm lg:text-base text-white/95 font-normal leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] mt-3 sm:mt-4 max-w-sm">
+              <p className="font-sans text-[11px] sm:text-xs md:text-sm lg:text-base text-white/95 font-normal leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] mt-2 sm:mt-4 max-w-xs sm:max-w-sm">
                 {phase.left.body}
               </p>
             </div>
@@ -181,18 +181,18 @@ export const ScrollStoryText: React.FC<ScrollStoryTextProps> = ({
                 transform: `translateX(${rightTranslateX}px)`,
                 transition: 'opacity 0.12s ease-out, transform 0.12s ease-out',
               }}
-              className="max-w-[280px] sm:max-w-sm lg:max-w-md xl:max-w-lg text-right flex flex-col items-end -translate-y-4 sm:-translate-y-6 ml-auto"
+              className="w-full md:w-auto max-w-[280px] sm:max-w-sm lg:max-w-md xl:max-w-lg text-center md:text-right flex flex-col items-center md:items-end pb-16 sm:pb-20 md:pb-0 -translate-y-0 md:-translate-y-6 md:ml-auto"
             >
-              <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-normal text-white tracking-tight leading-[1.05] drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
+              <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-white tracking-tight leading-[1.08] drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
                 {phase.right.headline}
               </h2>
-              <p className="font-sans text-xs sm:text-sm lg:text-base text-white/90 font-normal leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] mt-3 sm:mt-4 max-w-sm">
+              <p className="font-sans text-[11px] sm:text-xs md:text-sm lg:text-base text-white/90 font-normal leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] mt-2 sm:mt-4 max-w-xs sm:max-w-sm">
                 {phase.right.body}
               </p>
 
               {/* Action Button */}
               {phase.right.ctaText && (
-                <div className="mt-5 sm:mt-6">
+                <div className="mt-3.5 sm:mt-6">
                   <button
                     onClick={() => {
                       if (phase.right.ctaAction === 'scroll') {
@@ -204,10 +204,10 @@ export const ScrollStoryText: React.FC<ScrollStoryTextProps> = ({
                         router.push('/try-on');
                       }
                     }}
-                    className="inline-flex items-center space-x-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-[#FFF6F0] hover:bg-white text-[#4D292C] text-xs sm:text-sm font-medium tracking-wide shadow-2xl transition-all hover:scale-105 pointer-events-auto cursor-pointer"
+                    className="inline-flex items-center space-x-2 px-5 sm:px-7 py-2.5 sm:py-3.5 rounded-full bg-[#FFF6F0] hover:bg-white text-[#4D292C] text-xs sm:text-sm font-medium tracking-wide shadow-2xl transition-all hover:scale-105 pointer-events-auto cursor-pointer"
                   >
                     <span>{phase.right.ctaText}</span>
-                    <span className="text-base font-sans leading-none">→</span>
+                    <span className="text-sm sm:text-base font-sans leading-none">→</span>
                   </button>
                 </div>
               )}

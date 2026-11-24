@@ -159,82 +159,83 @@ export const CameraPreview: React.FC = () => {
           </button>
 
           <div
-            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-mono backdrop-blur-md border ${
+            className={`flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-mono backdrop-blur-md border shrink-0 ${
               isFaceTracked
                 ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
                 : 'bg-amber-500/15 text-amber-300 border-amber-500/30'
             }`}
           >
-            <Activity className="w-3.5 h-3.5" />
-            <span>{isFaceTracked ? 'Face Tracked' : 'Position Face in Center'}</span>
+            <Activity className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
+            <span className="hidden xs:inline">{isFaceTracked ? 'Face Tracked' : 'Center Face'}</span>
+            <span className="xs:hidden">{isFaceTracked ? 'Tracked' : 'Align'}</span>
           </div>
 
           {isCameraActive && (
-            <div className="bg-white/10 text-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-mono border border-white/10">
+            <div className="bg-white/10 text-white/90 backdrop-blur-md px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-mono border border-white/10 shrink-0">
               {fps || 18} FPS
             </div>
           )}
         </div>
 
         {/* Top-Right: Choose Photo & Stop/Start Camera Buttons */}
-        <div className="flex items-center space-x-2 pointer-events-auto">
+        <div className="flex items-center space-x-1.5 sm:space-x-2 pointer-events-auto">
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center space-x-1.5 px-3.5 sm:px-4 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-full text-xs font-sans backdrop-blur-md border border-white/15 transition-all cursor-pointer"
+            className="flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-4 py-1 sm:py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-full text-[11px] sm:text-xs font-sans backdrop-blur-md border border-white/15 transition-all cursor-pointer shrink-0"
             title="Upload photo from device"
           >
-            <ImageIcon className="w-3.5 h-3.5 opacity-80" />
-            <span>Choose Photo</span>
+            <ImageIcon className="w-3.5 h-3.5 opacity-80 shrink-0" />
+            <span className="hidden sm:inline">Choose Photo</span>
           </button>
 
           {isCameraActive ? (
             <button
               onClick={stopCamera}
-              className="flex items-center space-x-1.5 px-3.5 sm:px-4 py-1.5 bg-[#7D2433] hover:bg-[#962B3D] text-white rounded-full text-xs font-sans font-medium backdrop-blur-md shadow-xs transition-all cursor-pointer"
+              className="flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-4 py-1 sm:py-1.5 bg-[#7D2433] hover:bg-[#962B3D] text-white rounded-full text-[11px] sm:text-xs font-sans font-medium backdrop-blur-md shadow-xs transition-all cursor-pointer shrink-0"
               title="Stop live camera mirror"
             >
-              <CameraOff className="w-3.5 h-3.5" />
-              <span>Stop Camera</span>
+              <CameraOff className="w-3.5 h-3.5 shrink-0" />
+              <span className="hidden sm:inline">Stop Camera</span>
             </button>
           ) : (
             <button
               onClick={startCamera}
-              className="flex items-center space-x-1.5 px-3.5 sm:px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full text-xs font-sans font-medium backdrop-blur-md shadow-xs transition-all cursor-pointer"
+              className="flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-4 py-1 sm:py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full text-[11px] sm:text-xs font-sans font-medium backdrop-blur-md shadow-xs transition-all cursor-pointer shrink-0"
               title="Start live camera mirror"
             >
-              <ScanFace className="w-3.5 h-3.5" />
-              <span>Start Camera</span>
+              <ScanFace className="w-3.5 h-3.5 shrink-0" />
+              <span className="hidden sm:inline">Start Camera</span>
             </button>
           )}
         </div>
       </div>
 
       {/* Right Edge Floating Action Buttons (Vertical Column) */}
-      <div className="absolute right-4 sm:right-5 top-1/2 -translate-y-1/2 z-20 flex flex-col space-y-2.5">
+      <div className="absolute right-2.5 sm:right-5 top-1/2 -translate-y-1/2 z-20 flex flex-col space-y-2 sm:space-y-2.5">
         {/* 1. Fullscreen Toggle */}
         <button
           onClick={toggleFullscreen}
-          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/65 border border-white/15 backdrop-blur-md flex items-center justify-center text-white/90 hover:text-white transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+          className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/65 border border-white/15 backdrop-blur-md flex items-center justify-center text-white/90 hover:text-white transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
           title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
           aria-label="Fullscreen"
         >
-          {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+          {isFullscreen ? <Minimize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Maximize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
         </button>
 
         {/* 2. Snapshot Capture */}
         <button
           onClick={handleTakeSnapshot}
-          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/65 border border-white/15 backdrop-blur-md flex items-center justify-center text-white/90 hover:text-white transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+          className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/65 border border-white/15 backdrop-blur-md flex items-center justify-center text-white/90 hover:text-white transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
           title="Take Snapshot"
           aria-label="Take Snapshot"
         >
-          <Camera className="w-4 h-4" />
+          <Camera className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
         </button>
 
         {/* 3. Compare / Toggle Original */}
         <button
           onClick={() => setIsComparing(!isComparing)}
-          className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full border backdrop-blur-md flex items-center justify-center transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer ${
+          className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full border backdrop-blur-md flex items-center justify-center transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer ${
             isComparing
               ? 'bg-[#8B2D3E] text-white border-white/30'
               : 'bg-black/40 hover:bg-black/65 border-white/15 text-white/90 hover:text-white'
@@ -242,19 +243,19 @@ export const CameraPreview: React.FC = () => {
           title="Toggle Before / After Makeup"
           aria-label="Toggle Before / After"
         >
-          <RefreshCw className="w-4 h-4" />
+          <RefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
         </button>
       </div>
 
       {/* Bottom-Left Floating Lip Zoom Preview Card */}
-      <div className="absolute bottom-4 sm:bottom-5 left-4 sm:left-5 z-20 flex items-center space-x-3 p-1.5 pr-4 rounded-2xl bg-[#140A0E]/90 backdrop-blur-md border border-white/15 shadow-xl">
+      <div className="absolute bottom-2.5 sm:bottom-5 left-2.5 sm:left-5 z-20 flex items-center space-x-2 sm:space-x-3 p-1 sm:p-1.5 pr-2.5 sm:pr-4 rounded-xl sm:rounded-2xl bg-[#140A0E]/90 backdrop-blur-md border border-white/15 shadow-xl max-w-[calc(100%-60px)] sm:max-w-none">
         {/* Square Lip Zoom Preview Box */}
         <div
-          className="w-11 h-11 rounded-xl overflow-hidden border border-white/20 bg-black/50 shrink-0 relative flex items-center justify-center shadow-inner"
+          className="w-8 h-8 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl overflow-hidden border border-white/20 bg-black/50 shrink-0 relative flex items-center justify-center shadow-inner"
         >
           {/* Swatch or zoomed lip preview representation */}
           <div
-            className="w-8 h-4 rounded-full blur-[1px] transform -rotate-12 transition-colors duration-300"
+            className="w-6 h-3 sm:w-8 sm:h-4 rounded-full blur-[1px] transform -rotate-12 transition-colors duration-300"
             style={{ backgroundColor: selectedShade.hex }}
           />
           <div
@@ -263,18 +264,18 @@ export const CameraPreview: React.FC = () => {
         </div>
 
         {/* Shade Dot & Name */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-1.5 sm:space-x-2 min-w-0">
           <div
-            className="w-2.5 h-2.5 rounded-full shrink-0 ring-1 ring-white/30"
+            className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full shrink-0 ring-1 ring-white/30"
             style={{ backgroundColor: selectedShade.hex }}
           />
-          <span className="font-serif text-sm font-medium text-white tracking-wide">
+          <span className="font-serif text-xs sm:text-sm font-medium text-white tracking-wide truncate">
             {selectedShade.name}
           </span>
         </div>
 
         {/* Finish Badge */}
-        <span className="font-mono text-[9px] uppercase px-2 py-0.5 rounded bg-white/10 text-white/80 border border-white/10 font-medium">
+        <span className="font-mono text-[8px] sm:text-[9px] uppercase px-1.5 sm:px-2 py-0.5 rounded bg-white/10 text-white/80 border border-white/10 font-medium shrink-0">
           {finish}
         </span>
       </div>

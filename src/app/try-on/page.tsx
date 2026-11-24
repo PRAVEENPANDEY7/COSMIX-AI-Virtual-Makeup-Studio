@@ -12,7 +12,7 @@ export default function TryOnPage() {
       <Header />
 
       {/* 2. Main Try-On Page Content (Directly Below Existing Header) */}
-      <main className="flex-1 pt-28 sm:pt-32 pb-16 w-full flex flex-col justify-center">
+      <main className="flex-1 pt-20 sm:pt-32 pb-12 sm:pb-16 w-full flex flex-col justify-center">
         <TryOnStudio />
       </main>
 

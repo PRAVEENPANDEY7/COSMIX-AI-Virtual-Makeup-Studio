@@ -74,17 +74,17 @@ export const Header: React.FC<HeaderProps> = ({ onOpenStudio }) => {
   const hamburgerColor = isLightMode ? 'text-cosmix-wine' : 'text-white';
 
   // Header container: ALWAYS 100% transparent (no glass/blur/border box), smooth padding
-  const headerContainerClass = 'bg-transparent py-5 sm:py-6 transition-all duration-300';
+  const headerContainerClass = 'bg-transparent py-3.5 sm:py-6 transition-all duration-300';
 
   return (
     <header className={`fixed top-0 inset-x-0 z-50 pointer-events-none select-none ${headerContainerClass}`}>
-      <div className="w-full px-6 sm:px-10 lg:px-14 xl:px-16 flex items-center justify-between pointer-events-auto">
+      <div className="w-full px-4 sm:px-10 lg:px-14 xl:px-16 flex items-center justify-between pointer-events-auto">
         {/* Left: Brand Wordmark */}
         <Link href="/" className="flex items-baseline group cursor-pointer">
-          <span className={`font-serif text-3xl sm:text-4xl font-normal tracking-[0.06em] transition-colors ${brandTextColor}`}>
+          <span className={`font-serif text-2xl sm:text-4xl font-normal tracking-[0.06em] transition-colors ${brandTextColor}`}>
             COSMIX
           </span>
-          <span className={`text-[11px] sm:text-xs font-sans font-normal ml-0.5 -translate-y-2.5 inline-block transition-colors ${trademarkColor}`}>
+          <span className={`text-[10px] sm:text-xs font-sans font-normal ml-0.5 -translate-y-2 sm:-translate-y-2.5 inline-block transition-colors ${trademarkColor}`}>
             ®
           </span>
         </Link>

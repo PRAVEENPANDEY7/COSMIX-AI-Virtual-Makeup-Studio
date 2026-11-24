@@ -31,14 +31,14 @@ export const MakeupControls: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'shades' | 'finish' | 'intensity'>('shades');
 
   return (
-    <div className="bg-white rounded-[28px] p-6 sm:p-7 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-[#F4DDD5]/70 flex flex-col space-y-5 text-[#32171F]">
+    <div className="bg-white rounded-2xl sm:rounded-[28px] p-4 sm:p-7 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-[#F4DDD5]/70 flex flex-col space-y-4 sm:space-y-5 text-[#32171F]">
       {/* 1. Card Top Header */}
-      <div className="flex items-center justify-between pb-1">
-        <div className="flex items-center space-x-2.5">
-          <div className="w-8 h-8 rounded-full bg-[#FCEEEA] flex items-center justify-center text-[#8B2D3E]">
-            <LipstickIcon className="w-4 h-4 text-[#8B2D3E]" />
+      <div className="flex items-center justify-between pb-0.5 sm:pb-1">
+        <div className="flex items-center space-x-2 sm:space-x-2.5">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FCEEEA] flex items-center justify-center text-[#8B2D3E]">
+            <LipstickIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#8B2D3E]" />
           </div>
-          <h2 className="font-serif text-2xl font-normal text-[#32171F] tracking-tight">
+          <h2 className="font-serif text-xl sm:text-2xl font-normal text-[#32171F] tracking-tight">
             Cosmetics Palette
           </h2>
         </div>
@@ -57,7 +57,7 @@ export const MakeupControls: React.FC = () => {
       <div className="bg-[#FCEEEA]/50 p-1 rounded-full flex items-center justify-between border border-[#F4DDD5]/60">
         <button
           onClick={() => setActiveTab('shades')}
-          className={`flex-1 py-1.5 px-3 rounded-full text-xs font-sans font-medium flex items-center justify-center space-x-1.5 transition-all cursor-pointer ${
+          className={`flex-1 py-1.5 px-2.5 sm:px-3 rounded-full text-xs font-sans font-medium flex items-center justify-center space-x-1 sm:space-x-1.5 transition-all cursor-pointer ${
             activeTab === 'shades'
               ? 'bg-[#521D26] text-white shadow-xs'
               : 'text-[#32171F]/70 hover:text-[#32171F]'
@@ -69,7 +69,7 @@ export const MakeupControls: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('finish')}
-          className={`flex-1 py-1.5 px-3 rounded-full text-xs font-sans font-medium flex items-center justify-center space-x-1.5 transition-all cursor-pointer ${
+          className={`flex-1 py-1.5 px-2.5 sm:px-3 rounded-full text-xs font-sans font-medium flex items-center justify-center space-x-1 sm:space-x-1.5 transition-all cursor-pointer ${
             activeTab === 'finish'
               ? 'bg-[#521D26] text-white shadow-xs'
               : 'text-[#32171F]/70 hover:text-[#32171F]'
@@ -81,7 +81,7 @@ export const MakeupControls: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('intensity')}
-          className={`flex-1 py-1.5 px-3 rounded-full text-xs font-sans font-medium flex items-center justify-center space-x-1.5 transition-all cursor-pointer ${
+          className={`flex-1 py-1.5 px-2.5 sm:px-3 rounded-full text-xs font-sans font-medium flex items-center justify-center space-x-1 sm:space-x-1.5 transition-all cursor-pointer ${
             activeTab === 'intensity'
               ? 'bg-[#521D26] text-white shadow-xs'
               : 'text-[#32171F]/70 hover:text-[#32171F]'
@@ -92,14 +92,19 @@ export const MakeupControls: React.FC = () => {
         </button>
       </div>
 
-      {/* 3. Color Shades Selection */}
-      <ShadeSelector />
+      {/* Mobile Tabbed View (Sleek and Compact) */}
+      <div className="block lg:hidden">
+        {activeTab === 'shades' && <ShadeSelector />}
+        {activeTab === 'finish' && <FinishSelector />}
+        {activeTab === 'intensity' && <IntensitySlider />}
+      </div>
 
-      {/* 4. Texture & Finish */}
-      <FinishSelector />
-
-      {/* 5. Color Intensity Slider */}
-      <IntensitySlider />
+      {/* Desktop Full Stacked View */}
+      <div className="hidden lg:flex lg:flex-col lg:space-y-5">
+        <ShadeSelector />
+        <FinishSelector />
+        <IntensitySlider />
+      </div>
     </div>
   );
 };

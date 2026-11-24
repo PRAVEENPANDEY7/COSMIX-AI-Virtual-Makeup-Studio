@@ -46,11 +46,11 @@ export const BrandStory: React.FC = () => {
               {' '}Try it virtually, see the real look on your face, and find the shades that truly complement your skin tone.
             </p>
 
-            {/* Three Feature Highlights: Single Row with Soft Tile Icons */}
-            <div className="flex items-center flex-wrap sm:flex-nowrap gap-4 sm:gap-6 pt-1 pb-1">
+            {/* Three Feature Highlights: Responsive Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 pt-1 pb-1">
               {/* Highlight 1: Discover */}
               <div className="flex items-center space-x-3">
-                <div className="w-11 h-11 rounded-2xl bg-[#FCEEEA] border border-[#F4DDD5] flex items-center justify-center shrink-0 shadow-2xs">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-[#FCEEEA] border border-[#F4DDD5] flex items-center justify-center shrink-0 shadow-2xs">
                   <SwatchBook className="w-5 h-5 text-[#8B2D3E] stroke-[1.5]" />
                 </div>
                 <div>
@@ -63,12 +63,9 @@ export const BrandStory: React.FC = () => {
                 </div>
               </div>
 
-              {/* Subtle Vertical Divider */}
-              <div className="hidden sm:block w-px h-8 bg-[#32171F]/15 shrink-0" />
-
               {/* Highlight 2: Try On */}
               <div className="flex items-center space-x-3">
-                <div className="w-11 h-11 rounded-2xl bg-[#FCEEEA] border border-[#F4DDD5] flex items-center justify-center shrink-0 shadow-2xs">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-[#FCEEEA] border border-[#F4DDD5] flex items-center justify-center shrink-0 shadow-2xs">
                   <ScanFace className="w-5 h-5 text-[#8B2D3E] stroke-[1.5]" />
                 </div>
                 <div>
@@ -81,12 +78,9 @@ export const BrandStory: React.FC = () => {
                 </div>
               </div>
 
-              {/* Subtle Vertical Divider */}
-              <div className="hidden sm:block w-px h-8 bg-[#32171F]/15 shrink-0" />
-
               {/* Highlight 3: Compare */}
               <div className="flex items-center space-x-3">
-                <div className="w-11 h-11 rounded-2xl bg-[#FCEEEA] border border-[#F4DDD5] flex items-center justify-center shrink-0 shadow-2xs">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-[#FCEEEA] border border-[#F4DDD5] flex items-center justify-center shrink-0 shadow-2xs">
                   <Heart className="w-5 h-5 text-[#8B2D3E] stroke-[1.75]" />
                 </div>
                 <div>

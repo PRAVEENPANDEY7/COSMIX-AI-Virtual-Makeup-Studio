@@ -40,19 +40,19 @@ export default function FavouritesPage() {
       {/* Existing Header (STRICT SCOPE: Untouched) */}
       <Header />
 
-      <main className="flex-1 pt-28 sm:pt-32 pb-20 max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-12 w-full">
+      <main className="flex-1 pt-20 sm:pt-32 pb-16 sm:pb-20 max-w-[1360px] mx-auto px-4 sm:px-10 lg:px-12 w-full">
         {/* 1. Header (Matching Shades Page Luxury Style) */}
-        <section className="mb-10 sm:mb-12">
-          <div className="space-y-3 sm:space-y-4 max-w-2xl">
-            <div className="flex items-center space-x-3">
+        <section className="mb-8 sm:mb-12">
+          <div className="space-y-2.5 sm:space-y-4 max-w-2xl">
+            <div className="flex items-center space-x-2.5 sm:space-x-3">
               <Sparkle className="w-3.5 h-3.5 text-[#8B2D3E] stroke-[1.5]" />
-              <span className="text-[11px] font-mono tracking-[0.24em] text-[#32171F] uppercase font-semibold">
+              <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.24em] text-[#32171F] uppercase font-semibold">
                 PERSONAL PALETTE
               </span>
-              <div className="h-px bg-[#32171F]/15 w-20 sm:w-28" />
+              <div className="h-px bg-[#32171F]/15 w-16 sm:w-28" />
             </div>
 
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-[56px] font-light text-[#32171F] tracking-tight leading-[1.08]">
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-[56px] font-light text-[#32171F] tracking-tight leading-[1.1]">
               My Saved <span className="italic font-normal text-[#8B2D3E]">Favourites.</span>
             </h1>
 
