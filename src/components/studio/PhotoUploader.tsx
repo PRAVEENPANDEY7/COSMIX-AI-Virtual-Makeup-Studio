@@ -7,31 +7,31 @@ import { loadImageFromFile } from '@/lib/image/image-loader';
 import { useFaceLandmarks } from '@/hooks/use-face-landmarks';
 import { ProcessingStatus } from './ProcessingStatus';
 
-// Studio Models: Tara, Meera, Zoya, Amara (Original Full-Res Portraits)
+// Studio Models: Riya, Siddhi, Apoorva, Soumya (High-Res Studio Portraits with Clean Aesthetic Background)
 const STUDIO_MODELS = [
   {
-    id: 'tara',
-    name: 'Tara',
-    skinTone: 'Dusky Warm',
-    url: '/assets/cosmix/models/model-tara.png',
+    id: 'riya',
+    name: 'Riya',
+    skinTone: 'Dusky Deep',
+    url: '/assets/cosmix/models/model-riya.png',
   },
   {
-    id: 'meera',
-    name: 'Meera',
-    skinTone: 'Warm Golden',
-    url: '/assets/cosmix/models/model-meera.png',
+    id: 'siddhi',
+    name: 'Siddhi',
+    skinTone: 'Fair Warm',
+    url: '/assets/cosmix/models/model-siddhi.png',
   },
   {
-    id: 'zoya',
-    name: 'Zoya',
-    skinTone: 'Neutral Olive',
-    url: '/assets/cosmix/models/model-zoya.png',
+    id: 'apoorva',
+    name: 'Apoorva',
+    skinTone: 'Neutral Honey',
+    url: '/assets/cosmix/models/model-apoorva.png',
   },
   {
-    id: 'amara',
-    name: 'Amara',
-    skinTone: 'Rich Deep',
-    url: '/assets/cosmix/models/model-amara.png',
+    id: 'soumya',
+    name: 'Soumya',
+    skinTone: 'Rich Caramel',
+    url: '/assets/cosmix/models/model-soumya.png',
   },
 ];
 

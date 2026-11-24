@@ -38,7 +38,8 @@ export function useMakeupRenderer() {
         targetCanvas.height = height;
         const ctx = targetCanvas.getContext('2d');
         if (ctx) {
-          ctx.clearRect(0, 0, width, height);
+          ctx.fillStyle = '#FFF8F5';
+          ctx.fillRect(0, 0, width, height);
           ctx.drawImage(originalImage, 0, 0, width, height);
         }
         return;

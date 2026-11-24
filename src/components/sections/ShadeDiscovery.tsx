@@ -86,7 +86,7 @@ export const ShadeDiscovery: React.FC<ShadeDiscoveryProps> = ({ onOpenTryOn }) =
   };
 
   return (
-    <section id="shades" className="pt-16 sm:pt-20 lg:pt-24 pb-12 sm:pb-16 lg:py-20 bg-cosmix-cream text-cosmix-dark relative overflow-hidden">
+    <section id="shades" className="scroll-mt-20 sm:scroll-mt-24 pt-20 sm:pt-24 lg:pt-28 pb-12 sm:pb-16 lg:py-20 bg-cosmix-cream text-cosmix-dark relative overflow-hidden">
       {/* Subtle background watermark (constrained on mobile so it doesn't overflow) */}
       <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] font-serif text-[120px] sm:text-[220px] lg:text-[300px] font-bold text-cosmix-wine leading-none overflow-hidden hidden sm:block">
         ATELIER

@@ -67,7 +67,8 @@ export class LipRenderer {
       if (success) {
         const ctx = targetCanvas.getContext('2d');
         if (ctx) {
-          ctx.clearRect(0, 0, width, height);
+          ctx.fillStyle = '#FFF8F5';
+          ctx.fillRect(0, 0, width, height);
           ctx.drawImage(this.webglCanvas, 0, 0);
           return;
         }
@@ -92,8 +93,9 @@ export class LipRenderer {
     const ctx = targetCanvas.getContext('2d');
     if (!ctx) return;
 
-    // Draw original image first
-    ctx.clearRect(0, 0, width, height);
+    // Draw luxury warm background, then image
+    ctx.fillStyle = '#FFF8F5';
+    ctx.fillRect(0, 0, width, height);
     ctx.drawImage(sourceImage, 0, 0, width, height);
 
     if (options.intensity <= 0.01) {

@@ -38,11 +38,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenStudio }) => {
       const lightSection = document.getElementById('story') || document.getElementById('shades');
       if (lightSection) {
         const rect = lightSection.getBoundingClientRect();
-        // When top of light section reaches near or past the header (<= 70px)
-        setIsScrolledToLight(rect.top <= 70);
+        // When top of light section reaches near or past the header (<= 100px)
+        setIsScrolledToLight(rect.top <= 100);
       } else {
         // Fallback for general scroll position past the pinned canvas
-        setIsScrolledToLight(window.scrollY > 300);
+        setIsScrolledToLight(window.scrollY > 200);
       }
     };
 
@@ -75,7 +75,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenStudio }) => {
 
   // Header container: on dark hero transparent, when scrolled into light sections gives a luxury blur background
   const headerContainerClass = isLightMode
-    ? 'bg-[#FFF8F5]/95 backdrop-blur-md border-b border-[#F4DDD5]/60 shadow-xs py-3 sm:py-4 transition-all duration-300'
+    ? 'bg-[#FFF8F5]/98 backdrop-blur-lg border-b border-[#F4DDD5]/80 shadow-xs py-3 sm:py-4 transition-all duration-300'
     : 'bg-transparent py-4 sm:py-6 transition-all duration-300';
 
   return (
