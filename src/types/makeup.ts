@@ -40,6 +40,7 @@ export interface RenderOptions {
   intensity: number; // 0.0 to 1.0
   glossBoost?: number; // 0.0 to 1.0
   featherRadius?: number; // pixels
+  isLiveVideo?: boolean;
 }
 
 export type ProcessingStage =

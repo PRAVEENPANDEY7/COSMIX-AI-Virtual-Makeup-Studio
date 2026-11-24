@@ -7,22 +7,48 @@ import { LipRenderer } from '@/lib/makeup/lip-renderer';
 import { NormalizedLandmark } from '@/types/makeup';
 
 /**
- * Exponential Moving Average (EMA) smoothing for facial landmarks to prevent video jitter.
+ * Adaptive velocity-based filter (One-Euro style) for facial landmarks.
+ * When lips move fast (talking, smiling, turning head), factor increases towards 0.92 for ZERO lag.
+ * When lips are still, factor lowers to 0.35 to eliminate micro-jitter completely.
  */
-function smoothLandmarks(
+function smoothLandmarksAdaptive(
   prev: NormalizedLandmark[] | null,
-  curr: NormalizedLandmark[],
-  factor = 0.65
+  curr: NormalizedLandmark[]
 ): NormalizedLandmark[] {
   if (!prev || prev.length !== curr.length) return curr;
-  return curr.map((pt, i) => {
+
+  // Measure movement speed using lip center landmarks (13: upper inner, 14: lower inner)
+  const p14 = curr[14];
+  const prev14 = prev[14];
+  const p13 = curr[13];
+  const prev13 = prev[13];
+
+  let speed = 0;
+  if (p14 && prev14 && p13 && prev13) {
+    const d14 = Math.hypot(p14.x - prev14.x, p14.y - prev14.y);
+    const d13 = Math.hypot(p13.x - prev13.x, p13.y - prev13.y);
+    speed = (d14 + d13) * 0.5;
+  }
+
+  // Dynamic alpha factor between 0.35 (still) and 0.92 (rapid motion)
+  const minAlpha = 0.35;
+  const maxAlpha = 0.92;
+  const factor = Math.min(maxAlpha, Math.max(minAlpha, minAlpha + speed * 85.0));
+  const oneMinusFactor = 1 - factor;
+
+  const len = curr.length;
+  const result: NormalizedLandmark[] = new Array(len);
+  for (let i = 0; i < len; i++) {
+    const c = curr[i];
     const p = prev[i];
-    return {
-      x: p.x * (1 - factor) + pt.x * factor,
-      y: p.y * (1 - factor) + pt.y * factor,
-      z: p.z * (1 - factor) + pt.z * factor,
+    result[i] = {
+      x: p.x * oneMinusFactor + c.x * factor,
+      y: p.y * oneMinusFactor + c.y * factor,
+      z: p.z * oneMinusFactor + c.z * factor,
     };
-  });
+  }
+
+  return result;
 }
 
 export function useCameraTryOn() {
@@ -170,7 +196,7 @@ export function useCameraTryOn() {
           if (detection && detection.faceLandmarks && detection.faceLandmarks.length > 0) {
             setIsFaceTracked(true);
             const rawLandmarks = detection.faceLandmarks[0];
-            const smoothed = smoothLandmarks(smoothedLandmarksRef.current, rawLandmarks, 0.6);
+            const smoothed = smoothLandmarksAdaptive(smoothedLandmarksRef.current, rawLandmarks);
             smoothedLandmarksRef.current = smoothed;
 
             const contours = extractLipContours(smoothed, width, height);
@@ -183,6 +209,7 @@ export function useCameraTryOn() {
                 shade: selectedShade,
                 finish,
                 intensity,
+                isLiveVideo: true,
               },
               width,
               height

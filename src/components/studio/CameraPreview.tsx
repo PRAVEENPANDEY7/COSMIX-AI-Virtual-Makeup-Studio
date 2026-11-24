@@ -28,7 +28,6 @@ export const CameraPreview: React.FC = () => {
   const {
     videoRef,
     canvasRef,
-    fps,
     isFaceTracked,
     facingMode,
     flipCamera,
@@ -222,12 +221,6 @@ export const CameraPreview: React.FC = () => {
             <span className="hidden xs:inline">{isFaceTracked ? 'Face Tracked' : 'Center Face'}</span>
             <span className="xs:hidden">{isFaceTracked ? 'Tracked' : 'Align'}</span>
           </div>
-
-          {isCameraActive && (
-            <div className="hidden sm:block bg-white/10 text-white/90 backdrop-blur-md px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-mono border border-white/10 shrink-0">
-              {fps || 18} FPS
-            </div>
-          )}
         </div>
 
         {/* Top-Right: Choose Photo & Stop/Start Camera Buttons */}

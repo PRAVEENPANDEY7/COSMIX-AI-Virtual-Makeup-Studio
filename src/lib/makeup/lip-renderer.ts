@@ -6,6 +6,7 @@ import { blendLipColor, getLuminance } from './color-utils';
 export class LipRenderer {
   private webglCanvas: HTMLCanvasElement | null = null;
   private shaderManager: ShaderManager | null = null;
+  private reusableMaskCanvas: HTMLCanvasElement | null = null;
   private cachedMask: HTMLCanvasElement | null = null;
   private cachedMaskKey: string = '';
 
@@ -13,6 +14,7 @@ export class LipRenderer {
     if (typeof window !== 'undefined') {
       this.webglCanvas = document.createElement('canvas');
       this.shaderManager = new ShaderManager(this.webglCanvas);
+      this.reusableMaskCanvas = document.createElement('canvas');
     }
   }
 
@@ -42,11 +44,33 @@ export class LipRenderer {
       targetCanvas.height = height;
     }
 
-    // 1. Get or create lip mask
-    const maskKey = this.getMaskKey(contours, width, height);
-    if (!this.cachedMask || this.cachedMaskKey !== maskKey) {
-      this.cachedMask = createLipMaskCanvas(contours, width, height, options.featherRadius || 2.5);
-      this.cachedMaskKey = maskKey;
+    if (!this.reusableMaskCanvas) {
+      this.reusableMaskCanvas = document.createElement('canvas');
+    }
+
+    // 1. Get or create lip mask (stream into reusable GPU-accelerated canvas for 60 FPS video)
+    let mask: HTMLCanvasElement;
+    if (options.isLiveVideo) {
+      mask = createLipMaskCanvas(
+        contours,
+        width,
+        height,
+        options.featherRadius || 2.5,
+        this.reusableMaskCanvas
+      );
+    } else {
+      const maskKey = this.getMaskKey(contours, width, height);
+      if (!this.cachedMask || this.cachedMaskKey !== maskKey) {
+        this.cachedMask = createLipMaskCanvas(
+          contours,
+          width,
+          height,
+          options.featherRadius || 2.5,
+          this.reusableMaskCanvas
+        );
+        this.cachedMaskKey = maskKey;
+      }
+      mask = this.cachedMask;
     }
 
     // 2. Try WebGL2 Shader rendering (Hardware Accelerated)
@@ -58,7 +82,7 @@ export class LipRenderer {
 
       const success = this.shaderManager.render(
         sourceImage as TexImageSource,
-        this.cachedMask as TexImageSource,
+        mask as TexImageSource,
         options.shade.rgb,
         options.finish,
         options.intensity
@@ -67,8 +91,10 @@ export class LipRenderer {
       if (success) {
         const ctx = targetCanvas.getContext('2d');
         if (ctx) {
-          ctx.fillStyle = '#FFF8F5';
-          ctx.fillRect(0, 0, width, height);
+          if (!options.isLiveVideo) {
+            ctx.fillStyle = '#FFF8F5';
+            ctx.fillRect(0, 0, width, height);
+          }
           ctx.drawImage(this.webglCanvas, 0, 0);
           return;
         }
@@ -76,7 +102,7 @@ export class LipRenderer {
     }
 
     // 3. Fallback: High-precision 2D Canvas CPU rendering
-    this.render2DFallback(targetCanvas, sourceImage, this.cachedMask, options, width, height);
+    this.render2DFallback(targetCanvas, sourceImage, mask, options, width, height);
   }
 
   /**
@@ -159,6 +185,7 @@ export class LipRenderer {
       this.shaderManager = null;
     }
     this.webglCanvas = null;
+    this.reusableMaskCanvas = null;
     this.cachedMask = null;
   }
 }

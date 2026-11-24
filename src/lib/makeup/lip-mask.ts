@@ -34,17 +34,22 @@ function drawSmoothClosedPath(ctx: CanvasRenderingContext2D, points: Point2D[], 
 /**
  * Creates an alpha mask canvas where the lip area is pure white (with feathered edges)
  * and teeth/mouth opening and outside skin are pure black (alpha = 0).
+ * Reuses targetCanvas if provided to eliminate garbage collection pauses.
  */
 export function createLipMaskCanvas(
   contours: LipContours,
   width: number,
   height: number,
-  featherRadius = 2.5
+  featherRadius = 2.5,
+  targetCanvas?: HTMLCanvasElement
 ): HTMLCanvasElement {
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  const canvas = targetCanvas || document.createElement('canvas');
+  if (canvas.width !== width || canvas.height !== height) {
+    canvas.width = width;
+    canvas.height = height;
+  }
+  // Hardware-accelerated 2D canvas context (no willReadFrequently so blur runs on GPU)
+  const ctx = canvas.getContext('2d');
   if (!ctx) return canvas;
 
   // Clear canvas to fully transparent

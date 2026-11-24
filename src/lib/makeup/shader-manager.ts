@@ -55,10 +55,12 @@ export class ShaderManager {
       uniform int u_finish;
       uniform float u_intensity;
 
+      // Rec. 709 Luminance
       float getLum(vec3 c) {
         return dot(c, vec3(0.2126, 0.7152, 0.0722));
       }
 
+      // Soft light blending for deep pigment infusion
       vec3 softLight(vec3 b, vec3 s) {
         vec3 r;
         for (int i = 0; i < 3; i++) {
@@ -75,32 +77,56 @@ export class ShaderManager {
         vec4 orig = texture(u_image, v_texCoord);
         float mask = texture(u_mask, v_texCoord).a;
 
-        if (mask < 0.005) {
+        if (mask < 0.003) {
           fragColor = orig;
           return;
         }
 
-        float lum = getLum(orig.rgb);
-        vec3 textured = u_color * (lum * 1.5 + 0.25);
-        vec3 soft = softLight(orig.rgb, u_color);
-        vec3 blended = mix(soft, textured, 0.5);
+        // 1. High-frequency micro-crease & texture extraction (Sulci labiorum)
+        ivec2 texSize = textureSize(u_image, 0);
+        vec2 texel = 1.5 / vec2(float(texSize.x), float(texSize.y));
 
+        float lumC = getLum(orig.rgb);
+        float lumN = getLum(texture(u_image, v_texCoord + vec2(0.0, -texel.y)).rgb);
+        float lumS = getLum(texture(u_image, v_texCoord + vec2(0.0,  texel.y)).rgb);
+        float lumW = getLum(texture(u_image, v_texCoord + vec2(-texel.x, 0.0)).rgb);
+        float lumE = getLum(texture(u_image, v_texCoord + vec2( texel.x, 0.0)).rgb);
+        float localMeanLum = (lumN + lumS + lumW + lumE) * 0.25;
+
+        // Micro-crease contrast: preserves fine vertical lip lines and natural grain
+        float creaseDetail = clamp((lumC - localMeanLum) * 2.2, -0.35, 0.35);
+
+        // 2. Pigment infusion modulated by natural lip lighting
+        vec3 texturedLipstick = u_color * (pow(lumC, 0.8) * 1.45 + 0.12);
+        vec3 softBlended = softLight(orig.rgb, u_color);
+        vec3 blended = mix(softBlended, texturedLipstick, 0.62);
+
+        // Re-inject physical lip wrinkles and surface texture
+        blended = clamp(blended + vec3(creaseDetail * 1.5), 0.0, 1.0);
+
+        // 3. PBR Finish-specific physical lighting response
         if (u_finish == 0) {
-          // Matte: Soft velvet tone
-          if (lum > 0.75) {
-            blended = mix(blended, u_color * 0.9, 0.35);
+          // Matte: Soft velvety diffusion, suppresses harsh glare while enhancing wrinkle definition
+          if (lumC > 0.62) {
+            blended = mix(blended, u_color * 0.82, 0.4);
           }
+          blended += vec3(creaseDetail * 0.4);
         } else if (u_finish == 1) {
-          // Satin: Luminous glow
-          blended = mix(blended, orig.rgb * u_color * 1.4, 0.2);
+          // Satin: Hydrating natural sheen centered on natural lip fullness
+          float satinSheen = pow(max(0.0, lumC), 2.2) * 0.35;
+          blended = mix(blended, blended + u_color * satinSheen, 0.55);
         } else if (u_finish == 2) {
-          // Gloss: Specular highlight
-          float spec = pow(max(0.0, lum), 2.8) * 0.7;
-          blended += vec3(spec);
+          // Gloss: High-specular wet liquid lacquer with natural light reflection
+          float glossSpec = pow(max(0.0, lumC), 3.2) * 0.88;
+          vec3 specTone = mix(vec3(1.0, 0.98, 0.95), u_color, 0.2);
+          blended = blended + specTone * glossSpec;
         }
 
-        float alpha = clamp(mask * u_intensity, 0.0, 1.0);
-        fragColor = vec4(clamp(mix(orig.rgb, blended, alpha), 0.0, 1.0), orig.a);
+        // 4. Smooth vermilion border falloff (cubic transition into natural skin)
+        float smoothAlpha = smoothstep(0.0, 0.95, mask) * u_intensity;
+        vec3 finalColor = clamp(mix(orig.rgb, blended, smoothAlpha), 0.0, 1.0);
+
+        fragColor = vec4(finalColor, orig.a);
       }
     `;
 
@@ -158,9 +184,23 @@ export class ShaderManager {
     gl.bindVertexArray(null);
     this.quadVao = vao;
 
-    // Create textures
+    // Create and configure textures
     this.imageTexture = gl.createTexture();
     this.maskTexture = gl.createTexture();
+
+    gl.bindTexture(gl.TEXTURE_2D, this.imageTexture);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+    gl.bindTexture(gl.TEXTURE_2D, this.maskTexture);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+    gl.bindTexture(gl.TEXTURE_2D, null);
 
     return true;
   }
@@ -202,20 +242,12 @@ export class ShaderManager {
     // Bind original image to Texture 0
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, this.imageTexture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, imageSource);
     gl.uniform1i(this.uImageLoc, 0);
 
     // Bind lip mask to Texture 1
     gl.activeTexture(gl.TEXTURE1);
     gl.bindTexture(gl.TEXTURE_2D, this.maskTexture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, maskSource);
     gl.uniform1i(this.uMaskLoc, 1);
 
