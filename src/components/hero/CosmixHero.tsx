@@ -29,13 +29,20 @@ export const CosmixHero: React.FC<CosmixHeroProps> = ({ onLaunchStudio }) => {
         pin: true,
         scrub: 0.65, // Smooth, cinematic momentum
         anticipatePin: 1,
+        invalidateOnRefresh: true, // Recalculates dynamically on viewport resize
         onUpdate: (self) => {
           setScrollProgress(self.progress);
         },
       });
     }, container);
 
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener('resize', handleResize);
+
     return () => {
+      window.removeEventListener('resize', handleResize);
       ctx.revert();
     };
   }, []);

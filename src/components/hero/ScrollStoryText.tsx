@@ -153,64 +153,104 @@ export const ScrollStoryText: React.FC<ScrollStoryTextProps> = ({
         if (opacity < 0.01) return null;
 
         return (
-          <div
-            key={phase.id}
-            className="absolute inset-0 pointer-events-none flex flex-col md:flex-row items-center justify-between px-4 sm:px-10 lg:px-14 xl:px-16"
-          >
-            {/* Left Story Column (glides from left, then dissipates) */}
-            <div
-              style={{
-                opacity,
-                transform: `translateX(${leftTranslateX}px)`,
-                transition: 'opacity 0.12s ease-out, transform 0.12s ease-out',
-              }}
-              className="w-full md:w-auto max-w-[280px] sm:max-w-sm lg:max-w-md xl:max-w-lg text-center md:text-left flex flex-col items-center md:items-start pt-16 sm:pt-20 md:pt-0 -translate-y-0 md:-translate-y-6"
-            >
-              <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-white tracking-tight leading-[1.08] drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
-                {phase.left.headline}
-              </h2>
-              <p className="font-sans text-[11px] sm:text-xs md:text-sm lg:text-base text-white/95 font-normal leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] mt-2 sm:mt-4 max-w-xs sm:max-w-sm">
-                {phase.left.body}
-              </p>
+          <div key={phase.id} className="absolute inset-0 pointer-events-none">
+            {/* DESKTOP VIEW (md+): EXACT 1:1 ORIGINAL UNTOUCHED LUXURY PRESENTATION */}
+            <div className="hidden md:flex absolute inset-0 items-center justify-between px-6 sm:px-10 lg:px-14 xl:px-16 pointer-events-none">
+              {/* Left Story Column (glides from left, then dissipates) */}
+              <div
+                style={{
+                  opacity,
+                  transform: `translateX(${leftTranslateX}px)`,
+                  transition: 'opacity 0.12s ease-out, transform 0.12s ease-out',
+                }}
+                className="max-w-sm lg:max-w-md xl:max-w-lg text-left flex flex-col items-start -translate-y-4 sm:-translate-y-6"
+              >
+                <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-normal text-white tracking-tight leading-[1.05] drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
+                  {phase.left.headline}
+                </h2>
+                <p className="font-sans text-xs sm:text-sm lg:text-base text-white/95 font-normal leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] mt-3 sm:mt-4 max-w-sm">
+                  {phase.left.body}
+                </p>
+              </div>
+
+              {/* Right Story Column (glides from right, then dissipates) */}
+              <div
+                style={{
+                  opacity,
+                  transform: `translateX(${rightTranslateX}px)`,
+                  transition: 'opacity 0.12s ease-out, transform 0.12s ease-out',
+                }}
+                className="max-w-sm lg:max-w-md xl:max-w-lg text-right flex flex-col items-end -translate-y-4 sm:-translate-y-6 ml-auto"
+              >
+                <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-normal text-white tracking-tight leading-[1.05] drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
+                  {phase.right.headline}
+                </h2>
+                <p className="font-sans text-xs sm:text-sm lg:text-base text-white/90 font-normal leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] mt-3 sm:mt-4 max-w-sm">
+                  {phase.right.body}
+                </p>
+
+                {/* Action Button */}
+                {phase.right.ctaText && (
+                  <div className="mt-5 sm:mt-6">
+                    <button
+                      onClick={() => {
+                        if (phase.right.ctaAction === 'scroll') {
+                          const el = document.getElementById('shades');
+                          if (el) el.scrollIntoView({ behavior: 'smooth' });
+                        } else if (onLaunchStudio) {
+                          onLaunchStudio();
+                        } else {
+                          router.push('/try-on');
+                        }
+                      }}
+                      className="inline-flex items-center space-x-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-[#FFF6F0] hover:bg-white text-[#4D292C] text-xs sm:text-sm font-medium tracking-wide shadow-2xl transition-all hover:scale-105 pointer-events-auto cursor-pointer"
+                    >
+                      <span>{phase.right.ctaText}</span>
+                      <span className="text-base font-sans leading-none">→</span>
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Right Story Column (glides from right, then dissipates) */}
+            {/* MOBILE VIEW (<md): STRICTLY AT THE BOTTOM, ZERO TEXT ON FACE */}
             <div
               style={{
                 opacity,
-                transform: `translateX(${rightTranslateX}px)`,
-                transition: 'opacity 0.12s ease-out, transform 0.12s ease-out',
+                transition: 'opacity 0.15s ease-out',
               }}
-              className="w-full md:w-auto max-w-[280px] sm:max-w-sm lg:max-w-md xl:max-w-lg text-center md:text-right flex flex-col items-center md:items-end pb-16 sm:pb-20 md:pb-0 -translate-y-0 md:-translate-y-6 md:ml-auto"
+              className="md:hidden absolute bottom-10 sm:bottom-12 inset-x-0 px-6 flex flex-col items-center justify-end text-center pointer-events-none"
             >
-              <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-white tracking-tight leading-[1.08] drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
-                {phase.right.headline}
-              </h2>
-              <p className="font-sans text-[11px] sm:text-xs md:text-sm lg:text-base text-white/90 font-normal leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] mt-2 sm:mt-4 max-w-xs sm:max-w-sm">
-                {phase.right.body}
-              </p>
+              <div className="w-full max-w-xs mx-auto flex flex-col items-center">
+                <h2 className="font-serif text-2xl xs:text-3xl font-normal text-white leading-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]">
+                  {phase.left.headline} <span className="italic font-light text-cosmix-dusty">{phase.right.headline}</span>
+                </h2>
+                <p className="font-sans text-xs text-white/95 leading-relaxed mt-2 max-w-[280px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] font-normal">
+                  {phase.left.body}
+                </p>
 
-              {/* Action Button */}
-              {phase.right.ctaText && (
-                <div className="mt-3.5 sm:mt-6">
-                  <button
-                    onClick={() => {
-                      if (phase.right.ctaAction === 'scroll') {
-                        const el = document.getElementById('shades');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      } else if (onLaunchStudio) {
-                        onLaunchStudio();
-                      } else {
-                        router.push('/try-on');
-                      }
-                    }}
-                    className="inline-flex items-center space-x-2 px-5 sm:px-7 py-2.5 sm:py-3.5 rounded-full bg-[#FFF6F0] hover:bg-white text-[#4D292C] text-xs sm:text-sm font-medium tracking-wide shadow-2xl transition-all hover:scale-105 pointer-events-auto cursor-pointer"
-                  >
-                    <span>{phase.right.ctaText}</span>
-                    <span className="text-sm sm:text-base font-sans leading-none">→</span>
-                  </button>
-                </div>
-              )}
+                {/* Mobile CTA Button */}
+                {phase.right.ctaText && (
+                  <div className="mt-4">
+                    <button
+                      onClick={() => {
+                        if (phase.right.ctaAction === 'scroll') {
+                          const el = document.getElementById('shades');
+                          if (el) el.scrollIntoView({ behavior: 'smooth' });
+                        } else if (onLaunchStudio) {
+                          onLaunchStudio();
+                        } else {
+                          router.push('/try-on');
+                        }
+                      }}
+                      className="inline-flex items-center space-x-2 px-6 py-2.5 rounded-full bg-[#FFF6F0] text-[#4D292C] text-xs font-semibold tracking-wide shadow-2xl pointer-events-auto cursor-pointer active:scale-95 transition-transform"
+                    >
+                      <span>{phase.right.ctaText}</span>
+                      <span className="text-sm font-sans leading-none">→</span>
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         );
