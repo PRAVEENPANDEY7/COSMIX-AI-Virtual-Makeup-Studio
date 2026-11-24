@@ -1,0 +1,60 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: ["class"],
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        cosmix: {
+          dusty: "#C9827B",
+          deep: "#A95755",
+          blush: "#F4DDD5",
+          cream: "#FFF6F0",
+          wine: "#4D292C",
+          gold: "#C6A16B",
+          dark: "#1A0F11",
+        },
+        studio: {
+          50: "#faf8f6",
+          100: "#f5f0ec",
+          200: "#ebe0d8",
+          300: "#ddc9bc",
+          400: "#c7a895",
+          500: "#b58c74",
+          600: "#a67860",
+          700: "#8a614c",
+          800: "#715041",
+          900: "#5c4337",
+          950: "#32231c",
+        },
+        rosewood: {
+          50: "#fdf4f5",
+          100: "#fbe8ea",
+          200: "#f8d5d9",
+          300: "#f2b5bd",
+          400: "#e98997",
+          500: "#dc6174",
+          600: "#c74359",
+          700: "#a63346",
+          800: "#8b2e3e",
+          900: "#762b38",
+          950: "#41131c",
+        },
+      },
+      fontFamily: {
+        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        sans: ['"DM Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+};
