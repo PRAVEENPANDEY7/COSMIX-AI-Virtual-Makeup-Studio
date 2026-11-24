@@ -213,25 +213,25 @@ export const ScrollStoryText: React.FC<ScrollStoryTextProps> = ({
               </div>
             </div>
 
-            {/* MOBILE VIEW (<md): STRICTLY AT THE BOTTOM, ZERO TEXT ON FACE */}
+            {/* MOBILE VIEW (<md): STRICTLY AT THE BOTTOM, ZERO TEXT ON FACE OR NECK */}
             <div
               style={{
                 opacity,
                 transition: 'opacity 0.15s ease-out',
               }}
-              className="md:hidden absolute bottom-14 sm:bottom-16 inset-x-0 px-6 flex flex-col items-center justify-end text-center pointer-events-none"
+              className="md:hidden absolute bottom-11 sm:bottom-14 inset-x-0 px-5 flex flex-col items-center justify-end text-center pointer-events-none"
             >
               <div className="w-full max-w-xs mx-auto flex flex-col items-center">
-                <h2 className="font-serif text-2xl xs:text-3xl font-normal text-white leading-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+                <h2 className="font-serif text-xl xs:text-2xl font-normal text-white leading-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
                   {phase.left.headline} <span className="italic font-normal text-white">{phase.right.headline}</span>
                 </h2>
-                <p className="font-sans text-xs text-white/95 leading-relaxed mt-2 max-w-[280px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] font-normal">
+                <p className="font-sans text-[11px] xs:text-xs text-white/95 leading-relaxed mt-1.5 max-w-[290px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] font-normal">
                   {phase.left.body}
                 </p>
 
                 {/* Mobile CTA Button */}
                 {phase.right.ctaText && (
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <button
                       onClick={() => {
                         if (phase.right.ctaAction === 'scroll') {
@@ -243,7 +243,7 @@ export const ScrollStoryText: React.FC<ScrollStoryTextProps> = ({
                           router.push('/try-on');
                         }
                       }}
-                      className="inline-flex items-center space-x-2 px-6 py-2.5 rounded-full bg-[#FFF6F0] text-[#4D292C] text-xs font-semibold tracking-wide shadow-2xl pointer-events-auto cursor-pointer active:scale-95 transition-transform"
+                      className="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-[#FFF6F0] text-[#4D292C] text-xs font-semibold tracking-wide shadow-2xl pointer-events-auto cursor-pointer active:scale-95 transition-transform"
                     >
                       <span>{phase.right.ctaText}</span>
                       <span className="text-sm font-sans leading-none">→</span>
